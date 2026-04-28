@@ -552,7 +552,7 @@ function closeMicro(){document.getElementById('micro-survey').classList.remove('
 async function microAnswer(answer){
   closeMicro();
   try{
-    await fetch('https://formspree.io/f/xgorjjab',{
+    await fetch('https://formspree.io/f/meevyadp',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body:JSON.stringify({_subject:'mar.gins Micro Survey',answer,source:'app micro-survey'})
@@ -640,7 +640,7 @@ async function submitFb(e){
   btn.disabled=true;btn.textContent='Sending...';
   const data=new FormData(document.getElementById('fb-form'));
   try{
-    const res=await fetch('https://formspree.io/f/xgorjjab',{method:'POST',body:data,headers:{'Accept':'application/json'}});
+    const res=await fetch('https://formspree.io/f/meevyadp',{method:'POST',body:data,headers:{'Accept':'application/json'}});
     if(res.ok){document.getElementById('fb-form').style.display='none';document.getElementById('fb-success').style.display='block';}
     else{btn.disabled=false;btn.textContent='Send feedback →';alert('Something went wrong. Please try again.');}
   }catch(err){btn.disabled=false;btn.textContent='Send feedback →';alert('Something went wrong. Please try again.');}
