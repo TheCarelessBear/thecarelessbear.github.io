@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mar.gins — The numbers behind every dish you serve.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#1C1B17;--offwhite:#FBF8F0;--cream:#F0EBD8;
+  --yellow:#FFE566;--coral:#3D9E6E;--green:#3D9E6E;
+  --mint:#8FD5B2;--red:#C8382A;--tan:#D4C4A0;--gray:#7A7060;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--offwhite);color:var(--black);overflow-x:hidden;}
+
+/* TICKET STRIP */
+.ticket-strip{background:var(--black);color:var(--yellow);font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:10px 0;text-align:center;border-bottom:3px solid var(--coral);}
+
+/* NAV */
+nav{background:var(--yellow);border-bottom:3px solid var(--black);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-logo{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--black);letter-spacing:-1px;}
+.nav-logo span{color:var(--coral);}
+.nav-logo-sub{font-size:9px;color:var(--black);opacity:0.5;letter-spacing:0.08em;text-transform:uppercase;margin-top:1px;}
+.nav-right{display:flex;align-items:center;gap:6px;}
+.nav-link{font-size:12px;font-weight:500;color:var(--black);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background 0.15s;display:none;}
+@media(min-width:600px){.nav-link{display:block;}}
+.nav-link:hover{background:rgba(0,0,0,0.08);}
+.nav-cta{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;background:var(--black);color:var(--yellow);padding:10px 20px;border-radius:10px;border:2.5px solid var(--black);text-decoration:none;letter-spacing:0.03em;transition:all 0.15s;}
+.nav-cta:hover{background:var(--coral);border-color:var(--coral);}
+
+/* HERO */
+.hero{background:var(--black);border-bottom:4px solid var(--coral);padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background-image:repeating-conic-gradient(rgba(255,229,102,0.04) 0% 25%,transparent 0% 50%);background-size:48px 48px;pointer-events:none;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,229,102,0.1);border:1.5px solid rgba(255,229,102,0.25);color:var(--yellow);border-radius:99px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:6px 16px;margin-bottom:32px;position:relative;z-index:1;}
+.hero-tag-dot{width:5px;height:5px;border-radius:50%;background:var(--mint);}
+.hero-menu-label{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:12px;position:relative;z-index:1;}
+.hero-h1{font-family:'Syne',sans-serif;font-size:clamp(48px,10vw,108px);font-weight:800;line-height:0.88;letter-spacing:-4px;color:var(--yellow);margin-bottom:12px;position:relative;z-index:1;}
+.hero-h1 .serif{font-style:italic;color:white;}
+.hero-h1 .red{color:var(--coral);}
+.hero-dish{font-size:clamp(13px,2vw,17px);color:rgba(255,255,255,0.5);font-style:italic;margin-bottom:32px;position:relative;z-index:1;}
+.hero-desc{font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,0.7);max-width:560px;margin:0 auto 40px;line-height:1.7;position:relative;z-index:1;}
+.hero-desc strong{color:white;}
+.hero-order{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1;margin-bottom:16px;}
+.btn-order{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;padding:14px 28px;border-radius:12px;cursor:pointer;text-decoration:none;letter-spacing:0.03em;transition:all 0.15s;border:2.5px solid;}
+.btn-order-primary{background:var(--yellow);color:var(--black);border-color:var(--yellow);}
+.btn-order-primary:hover{background:#ffe033;transform:translateY(-2px);}
+.btn-order-secondary{background:transparent;color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.2);}
+.btn-order-secondary:hover{border-color:rgba(255,255,255,0.5);color:white;}
+.hero-note{font-size:12px;color:rgba(255,255,255,0.3);position:relative;z-index:1;}
+
+/* APP PREVIEW */
+.menu-preview{max-width:740px;margin:60px auto 0;position:relative;z-index:1;}
+.menu-card{background:var(--offwhite);border:3px solid var(--black);border-radius:16px;overflow:hidden;box-shadow:8px 8px 0 var(--coral);}
+.mc-header{background:var(--yellow);border-bottom:3px solid var(--black);padding:12px 18px;display:flex;justify-content:space-between;align-items:center;}
+.mc-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--black);letter-spacing:-0.5px;}
+.mc-logo span{color:var(--coral);}
+.mc-status{font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:5px;}
+.mc-status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.mc-tabs{display:flex;background:white;border-bottom:2.5px solid var(--black);overflow-x:auto;}
+.mc-tab{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;padding:9px 14px;color:var(--gray);border-right:1.5px solid rgba(0,0,0,0.1);white-space:nowrap;flex-shrink:0;}
+.mc-tab.on{background:var(--black);color:var(--yellow);}
+.mc-body{padding:16px;background:var(--cream);}
+.mc-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+@media(max-width:540px){.mc-metrics{grid-template-columns:repeat(2,1fr);}}
+.mcm{border-radius:10px;border:2px solid var(--black);padding:10px 8px;}
+.mcm.y{background:var(--yellow);}
+.mcm.c{background:#F0997B;}
+.mcm.m{background:var(--mint);}
+.mcm.l{background:#CECBF6;}
+.mcm-n{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--black);line-height:1;}
+.mcm-l{font-size:9px;color:var(--black);opacity:0.55;margin-top:2px;}
+.mc-item{background:white;border:2px solid var(--black);border-radius:10px;padding:10px 12px;margin-bottom:8px;}
+.mci-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.mci-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--black);}
+.mci-pill{font-family:'Syne',sans-serif;font-size:8px;font-weight:700;padding:2px 8px;border-radius:99px;border:1.5px solid var(--black);}
+.mg{background:var(--mint);color:#085041;}
+.mr{background:#F09595;color:#791F1F;}
+.mci-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;}
+.ms{background:var(--cream);border-radius:6px;padding:4px 3px;text-align:center;border:1.5px solid var(--black);}
+.ms-v{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--black);}
+.ms-l{font-size:7px;color:var(--gray);}
+.mci-bar{height:4px;background:#E0D9C8;border-radius:99px;margin-top:8px;overflow:hidden;border:1px solid var(--black);}
+.mci-bf{height:100%;border-radius:99px;}
+
+/* SPECIALS */
+.specials-strip{background:var(--coral);border-top:3px solid var(--black);border-bottom:3px solid var(--black);padding:14px 0;overflow:hidden;}
+.specials-inner{display:flex;gap:0;animation:scroll 22s linear infinite;width:max-content;}
+.special-item{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:white;letter-spacing:0.04em;padding:0 32px;white-space:nowrap;display:flex;align-items:center;gap:14px;}
+.special-sep{opacity:0.5;font-style:italic;}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* COUNTER */
+.counter-strip{background:var(--black);border-top:3px solid var(--black);border-bottom:3px solid var(--black);display:flex;flex-wrap:wrap;}
+.counter-item{flex:1;min-width:160px;text-align:center;padding:32px 20px;border-right:1px solid rgba(255,255,255,0.08);}
+.counter-item:last-child{border-right:none;}
+.counter-num{font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,52px);font-weight:800;color:var(--yellow);line-height:1;margin-bottom:6px;}
+.counter-lbl{font-size:11px;color:rgba(255,255,255,0.35);line-height:1.4;}
+
+/* SECTIONS */
+.section{padding:80px 24px;max-width:1040px;margin:0 auto;}
+.sec-tag{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--coral);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.sec-tag::before{content:'';display:block;width:24px;height:2px;background:var(--coral);}
+.sec-title{font-family:'Syne',sans-serif;font-size:clamp(30px,5vw,52px);font-weight:800;letter-spacing:-2px;color:var(--black);line-height:0.95;margin-bottom:16px;}
+.sec-title em{font-style:italic;color:var(--coral);}
+.sec-desc{font-size:15px;color:var(--gray);line-height:1.7;max-width:500px;}
+.divider{border:none;border-top:2px solid rgba(0,0,0,0.08);max-width:1040px;margin:0 auto;}
+
+/* MENU SECTION */
+.menu-section{background:var(--cream);border-top:3px solid var(--black);border-bottom:3px solid var(--black);padding:80px 24px;}
+.menu-inner{max-width:1040px;margin:0 auto;}
+.menu-header{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:56px;align-items:end;}
+@media(max-width:640px){.menu-header{grid-template-columns:1fr;}}
+.courses{display:flex;flex-direction:column;gap:1px;background:var(--black);border:3px solid var(--black);border-radius:16px;overflow:hidden;}
+.course{background:var(--offwhite);padding:28px 32px;display:grid;grid-template-columns:48px 1fr;gap:20px;align-items:start;transition:background 0.2s;}
+.course:hover{background:var(--yellow);}
+.course-num{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:rgba(0,0,0,0.08);line-height:1;padding-top:2px;}
+.course-label{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--coral);margin-bottom:6px;}
+.course-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--black);margin-bottom:8px;}
+.course-desc{font-size:13px;color:var(--gray);line-height:1.65;}
+
+/* FEATURES */
+.ingr-section{padding:80px 24px;background:var(--offwhite);}
+.ingr-inner{max-width:1040px;margin:0 auto;}
+.ingr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+@media(max-width:680px){.ingr-grid{grid-template-columns:1fr;}}
+.ingr-card{border:2px solid var(--black);border-radius:14px;padding:22px;background:white;transition:all 0.2s;}
+.ingr-card:hover{background:var(--yellow);transform:translateY(-3px);box-shadow:4px 4px 0 var(--black);}
+.ingr-icon{font-size:22px;margin-bottom:14px;width:44px;height:44px;border-radius:11px;background:var(--cream);border:2px solid var(--black);display:flex;align-items:center;justify-content:center;}
+.ingr-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--black);margin-bottom:7px;}
+.ingr-desc{font-size:13px;color:var(--gray);line-height:1.65;}
+.ingr-card-wide{grid-column:span 2;}
+@media(max-width:680px){.ingr-card-wide{grid-column:span 1;}}
+
+/* WASTE */
+.waste-section{background:var(--black);border-top:3px solid var(--coral);border-bottom:3px solid var(--coral);padding:80px 24px;}
+.waste-inner{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+@media(max-width:640px){.waste-inner{grid-template-columns:1fr;}}
+.wsec-tag{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--coral);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.wsec-tag::before{content:'';display:block;width:20px;height:2px;background:var(--coral);}
+.waste-title{font-family:'Syne',sans-serif;font-size:clamp(28px,4.5vw,50px);font-weight:800;letter-spacing:-2px;color:white;line-height:0.95;margin-bottom:16px;}
+.waste-title em{font-style:italic;color:var(--yellow);}
+.waste-desc{font-size:15px;color:rgba(255,255,255,0.5);line-height:1.7;}
+.waste-bill{background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;}
+.wb-lbl{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:4px;}
+.wb-val{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:var(--yellow);line-height:1;margin-bottom:4px;}
+.wb-note{font-size:11px;color:var(--coral);margin-bottom:20px;}
+.wb-line{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:4px;}
+.wb-track{height:5px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden;margin-bottom:10px;}
+.wb-fill{height:100%;border-radius:99px;}
+
+/* REVIEWS */
+.reviews-section{background:var(--cream);border-top:3px solid var(--black);border-bottom:3px solid var(--black);padding:80px 24px;}
+.reviews-inner{max-width:1040px;margin:0 auto;}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:48px;}
+@media(max-width:680px){.reviews-grid{grid-template-columns:1fr;}}
+.review{background:var(--offwhite);border:2px solid var(--black);border-radius:14px;padding:22px;transition:all 0.2s;}
+.review:hover{background:var(--yellow);box-shadow:4px 4px 0 var(--black);transform:translateY(-2px);}
+.r-stars{color:var(--coral);font-size:13px;margin-bottom:12px;}
+.r-quote{font-size:14px;color:var(--black);line-height:1.75;margin-bottom:16px;font-style:italic;}
+.r-author{font-size:12px;color:var(--gray);}
+.r-author strong{color:var(--black);display:block;font-style:normal;margin-bottom:2px;}
+
+/* PRICING */
+.pricing-section{background:var(--black);padding:80px 24px;}
+.pricing-inner{max-width:1040px;margin:0 auto;}
+.pricing-header{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:48px;}
+@media(max-width:640px){.pricing-header{grid-template-columns:1fr;}}
+.pricing-big{font-family:'Syne',sans-serif;font-size:clamp(36px,6vw,68px);font-weight:800;letter-spacing:-2.5px;color:white;line-height:0.9;}
+.pricing-big em{font-style:italic;color:var(--yellow);}
+.pricing-sub{font-size:15px;color:rgba(255,255,255,0.4);line-height:1.7;}
+.bill-card{background:var(--offwhite);border:3px solid var(--black);border-radius:20px;overflow:hidden;box-shadow:8px 8px 0 var(--coral);}
+.bill-header{background:var(--yellow);border-bottom:3px solid var(--black);padding:20px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.bill-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--black);}
+.bill-badge{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;background:var(--black);color:var(--yellow);padding:4px 12px;border-radius:99px;letter-spacing:0.08em;text-transform:uppercase;}
+.bill-body{padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+@media(max-width:560px){.bill-body{grid-template-columns:1fr;padding:20px;}}
+.bill-price{font-family:'Syne',sans-serif;font-size:72px;font-weight:800;color:var(--black);letter-spacing:-3px;line-height:1;margin-bottom:6px;}
+.bill-price-note{font-size:13px;color:var(--gray);margin-bottom:24px;line-height:1.6;}
+.btn-order-now{display:block;text-align:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;background:var(--black);color:var(--yellow);padding:15px 24px;border-radius:12px;border:2.5px solid var(--black);text-decoration:none;letter-spacing:0.03em;transition:all 0.15s;}
+.btn-order-now:hover{background:var(--coral);border-color:var(--coral);}
+.bill-note{font-size:11px;color:var(--gray);margin-top:12px;text-align:center;}
+.bill-item{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--black);padding-bottom:14px;margin-bottom:14px;border-bottom:1.5px dashed rgba(0,0,0,0.1);}
+.bill-item:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0;}
+.bi-check{width:20px;height:20px;border-radius:6px;background:#EAF5F0;border:1.5px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);flex-shrink:0;margin-top:1px;}
+
+/* FAQ */
+.faq-section{background:var(--offwhite);border-top:3px solid var(--black);padding:80px 24px;}
+.faq-inner{max-width:760px;margin:0 auto;}
+.faq-list{display:flex;flex-direction:column;}
+.faq-item{border-top:2px solid var(--black);padding:20px 0;cursor:pointer;}
+.faq-item:last-child{border-bottom:2px solid var(--black);}
+.faq-q{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--black);display:flex;justify-content:space-between;align-items:center;gap:16px;user-select:none;}
+.faq-plus{font-size:22px;font-weight:300;color:var(--coral);transition:transform 0.25s;flex-shrink:0;}
+.faq-item.open .faq-plus{transform:rotate(45deg);}
+.faq-a{font-size:14px;color:var(--gray);line-height:1.75;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s;}
+.faq-item.open .faq-a{max-height:300px;padding-top:14px;}
+
+/* LAST CALL */
+.last-call{background:var(--yellow);border-top:3px solid var(--black);padding:80px 24px;text-align:center;}
+.lc-eyebrow{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--coral);margin-bottom:20px;}
+.lc-title{font-family:'Syne',sans-serif;font-size:clamp(36px,7vw,80px);font-weight:800;letter-spacing:-3px;color:var(--black);line-height:0.9;margin-bottom:20px;}
+.lc-title em{font-style:italic;color:var(--coral);}
+.lc-desc{font-size:16px;color:rgba(0,0,0,0.55);margin-bottom:40px;line-height:1.6;}
+
+/* FOOTER */
+footer{background:var(--black);border-top:3px solid var(--black);padding:24px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.footer-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--yellow);letter-spacing:-0.5px;}
+.footer-logo span{color:var(--coral);}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap;}
+.footer-link{font-size:12px;color:rgba(255,255,255,0.25);text-decoration:none;transition:color 0.15s;}
+.footer-link:hover{color:rgba(255,255,255,0.6);}
+.footer-note{font-size:11px;color:rgba(255,255,255,0.15);}
+
+/* ═══════════════════════════════════
+   FEEDBACK SYSTEM
+═══════════════════════════════════ */
+/* Tab */
+.fb-tab{
+  position:fixed;right:0;top:50%;transform:translateY(-50%);
+  z-index:500;
+  background:var(--coral);color:white;
+  font-family:'Syne',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:0.06em;
+  padding:14px 10px;
+  border-radius:10px 0 0 10px;
+  border:2.5px solid var(--black);border-right:none;
+  cursor:pointer;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  transform:translateY(-50%) rotate(180deg);
+  user-select:none;
+  transition:background 0.15s,padding 0.15s;
+  box-shadow:-3px 0 0 var(--black);
+}
+.fb-tab:hover{background:#2D7A52;padding-left:14px;}
+
+/* Overlay */
+.fb-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.4);
+  z-index:600;opacity:0;pointer-events:none;
+  transition:opacity 0.25s;
+}
+.fb-overlay.open{opacity:1;pointer-events:all;}
+
+/* Panel */
+.fb-panel{
+  position:fixed;right:0;top:0;bottom:0;
+  width:360px;max-width:95vw;
+  background:var(--offwhite);
+  border-left:3px solid var(--black);
+  z-index:700;
+  transform:translateX(100%);
+  transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.fb-panel.open{transform:translateX(0);}
+.fb-panel-header{
+  background:var(--yellow);
+  border-bottom:3px solid var(--black);
+  padding:18px 20px;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-shrink:0;
+}
+.fb-panel-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--black);}
+.fb-panel-title span{color:var(--coral);}
+.fb-close{
+  font-size:22px;font-weight:300;color:var(--black);
+  cursor:pointer;line-height:1;padding:4px;
+  transition:color 0.15s;background:none;border:none;
+}
+.fb-close:hover{color:var(--coral);}
+.fb-panel-body{padding:20px;overflow-y:auto;flex:1;}
+.fb-intro{font-size:13px;color:var(--gray);line-height:1.65;margin-bottom:20px;}
+.fb-intro strong{color:var(--black);}
+
+/* Form fields */
+.fb-field{margin-bottom:16px;}
+.fb-label{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--black);margin-bottom:6px;display:block;}
+.fb-label span{color:var(--coral);}
+.fb-stars{display:flex;gap:6px;margin-bottom:4px;}
+.fb-star{font-size:24px;cursor:pointer;color:#D3D1C7;transition:color 0.1s;line-height:1;}
+.fb-star.lit{color:var(--coral);}
+textarea.fb-input,input.fb-input,select.fb-input{
+  font-family:'DM Sans',sans-serif;font-size:13px;
+  padding:10px 12px;
+  border:2px solid var(--black);border-radius:10px;
+  background:white;color:var(--black);
+  width:100%;resize:none;
+  transition:border-color 0.15s,background 0.15s;
+}
+textarea.fb-input:focus,input.fb-input:focus,select.fb-input:focus{outline:none;background:var(--yellow);border-color:var(--black);}
+textarea.fb-input{height:90px;}
+.fb-submit{
+  width:100%;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;
+  padding:13px;background:var(--black);color:var(--yellow);
+  border:2.5px solid var(--black);border-radius:10px;
+  cursor:pointer;letter-spacing:0.03em;transition:all 0.15s;
+  margin-top:4px;
+}
+.fb-submit:hover{background:var(--coral);border-color:var(--coral);}
+.fb-submit:disabled{opacity:0.5;cursor:not-allowed;}
+
+/* Success state */
+.fb-success{
+  display:none;text-align:center;padding:32px 20px;
+}
+.fb-success-icon{font-size:48px;margin-bottom:16px;}
+.fb-success-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--black);margin-bottom:8px;}
+.fb-success-desc{font-size:13px;color:var(--gray);line-height:1.65;}
+</style>
+</head>
+<body>
+
+<!-- FEEDBACK TAB -->
+<div class="fb-tab" onclick="openFeedback()" title="Share your feedback">Feedback</div>
+
+<!-- FEEDBACK OVERLAY -->
+<div class="fb-overlay" id="fb-overlay" onclick="closeFeedback()"></div>
+
+<!-- FEEDBACK PANEL -->
+<div class="fb-panel" id="fb-panel">
+  <div class="fb-panel-header">
+    <div class="fb-panel-title">mar<span>.</span>gins feedback</div>
+    <button class="fb-close" onclick="closeFeedback()">×</button>
+  </div>
+  <div class="fb-panel-body">
+    <p class="fb-intro">
+      <strong>Your opinion shapes this app.</strong> mar.gins is in early access and built for food business owners like you. Tell us what's working, what's missing, and what would make you actually use this every day.
+    </p>
+
+    <form id="fb-form" onsubmit="submitFeedback(event)">
+      <!-- Hidden fields for Formspree -->
+      <input type="hidden" name="_subject" value="mar.gins Landing Page Feedback">
+      <input type="hidden" name="_replyto" id="fb-replyto-hidden">
+
+      <div class="fb-field">
+        <label class="fb-label">How useful is mar.gins for your business? <span>*</span></label>
+        <div class="fb-stars" id="fb-stars">
+          <span class="fb-star" data-val="1" onclick="setStars(1)">★</span>
+          <span class="fb-star" data-val="2" onclick="setStars(2)">★</span>
+          <span class="fb-star" data-val="3" onclick="setStars(3)">★</span>
+          <span class="fb-star" data-val="4" onclick="setStars(4)">★</span>
+          <span class="fb-star" data-val="5" onclick="setStars(5)">★</span>
+        </div>
+        <input type="hidden" name="rating" id="fb-rating-val">
+      </div>
+
+      <div class="fb-field">
+        <label class="fb-label">What type of food business do you run?</label>
+        <select class="fb-input" name="business_type">
+          <option value="">Select one...</option>
+          <option>Pizza shop</option>
+          <option>Bakery</option>
+          <option>Sandwich / deli shop</option>
+          <option>Restaurant</option>
+          <option>Catering</option>
+          <option>Food truck</option>
+          <option>Café / coffee shop</option>
+          <option>Pastry / dessert shop</option>
+          <option>Other food business</option>
+          <option>I don't run a food business</option>
+        </select>
+      </div>
+
+      <div class="fb-field">
+        <label class="fb-label">What's the one thing you'd add or improve? <span>*</span></label>
+        <textarea class="fb-input" name="improvement" placeholder="e.g. I wish it could track daily sales, or the recipe builder needs to be simpler..." required></textarea>
+      </div>
+
+      <div class="fb-field">
+        <label class="fb-label">What do you like most?</label>
+        <textarea class="fb-input" name="liked" placeholder="What's working well for you?"></textarea>
+      </div>
+
+      <div class="fb-field">
+        <label class="fb-label">Would you pay for this? If so, what's fair?</label>
+        <select class="fb-input" name="would_pay">
+          <option value="">Select one...</option>
+          <option>Yes — $10/month or less</option>
+          <option>Yes — $15–20/month</option>
+          <option>Yes — $25–40/month</option>
+          <option>Only if it had more features</option>
+          <option>No — I'd only use it if it's free</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+
+      <div class="fb-field">
+        <label class="fb-label">Anything else on your mind?</label>
+        <textarea class="fb-input" name="open_comment" placeholder="Say whatever you'd like — complaints, ideas, questions, stories about your restaurant, anything at all. We read every single one." style="height:110px;"></textarea>
+      </div>
+
+      <div class="fb-field">
+        <label class="fb-label">Your email (optional — if you want a reply)</label>
+        <input type="email" class="fb-input" name="email" id="fb-email" placeholder="you@example.com" oninput="document.getElementById('fb-replyto-hidden').value=this.value">
+      </div>
+
+      <button type="submit" class="fb-submit" id="fb-submit-btn">Send feedback to the kitchen →</button>
+    </form>
+
+    <div class="fb-success" id="fb-success">
+      <div class="fb-success-icon">🍕</div>
+      <div class="fb-success-title">Feedback received!</div>
+      <div class="fb-success-desc">Thank you — this goes directly to the person who built mar.gins. Every response shapes what gets built next.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TICKET STRIP -->
+<div class="ticket-strip">★ &nbsp;Now seating early access guests — free of charge &nbsp;★ &nbsp;No reservation required &nbsp;★</div>
+
+<!-- NAV -->
+<nav>
+  <div>
+    <div class="nav-logo">mar<span>.</span>gins</div>
+    <div class="nav-logo-sub">The numbers behind every dish</div>
+  </div>
+  <div class="nav-right">
+    <a href="#menu" class="nav-link">The menu</a>
+    <a href="#the-bill" class="nav-link">The bill</a>
+    <a href="#questions" class="nav-link">Questions</a>
+    <a href="margins-calculator.html" class="nav-cta">Order now →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag"><div class="hero-tag-dot"></div>Fresh daily · GTA food businesses</div>
+  <div class="hero-menu-label">Tonight's feature</div>
+  <h1 class="hero-h1">Know your<br><span class="serif">numbers.</span><br>Own your<br><span class="red">kitchen.</span></h1>
+  <p class="hero-dish">Served fresh · No spreadsheets · No accountant · No guessing</p>
+  <p class="hero-desc">Most restaurants are losing money on their best dishes — and they don't know it. <strong>mar.gins</strong> shows you your real ingredient costs, tells you what to charge, and tracks every dollar of waste. Free. No sign-up.</p>
+  <div class="hero-order">
+    <a href="margins-calculator.html" class="btn-order btn-order-primary">Place your order — it's free →</a>
+    <a href="#menu" class="btn-order btn-order-secondary">See tonight's menu</a>
+  </div>
+  <p class="hero-note">Works on any phone or laptop. Your data saves automatically.</p>
+  <div class="menu-preview">
+    <div class="menu-card">
+      <div class="mc-header"><div class="mc-logo">mar<span>.</span>gins</div><div class="mc-status"><div class="mc-status-dot"></div>Kitchen is open</div></div>
+      <div class="mc-tabs"><div class="mc-tab">Ingredients</div><div class="mc-tab">Recipes</div><div class="mc-tab on">Menu & Pricing</div><div class="mc-tab">Simulator</div><div class="mc-tab">Waste</div></div>
+      <div class="mc-body">
+        <div class="mc-metrics">
+          <div class="mcm y"><div class="mcm-n">8</div><div class="mcm-l">On the menu</div></div>
+          <div class="mcm c"><div class="mcm-n">31.2%</div><div class="mcm-l">Avg food cost</div></div>
+          <div class="mcm m"><div class="mcm-n">Margherita</div><div class="mcm-l">Star dish</div></div>
+          <div class="mcm l"><div class="mcm-n">Calzone</div><div class="mcm-l">Needs work</div></div>
+        </div>
+        <div class="mc-item">
+          <div class="mci-top"><div class="mci-name">Margherita Pizza</div><span class="mci-pill mg">Chef's special ✓</span></div>
+          <div class="mci-stats"><div class="ms"><div class="ms-v">$3.20</div><div class="ms-l">cost</div></div><div class="ms"><div class="ms-v">$14.00</div><div class="ms-l">price</div></div><div class="ms"><div class="ms-v">$6.42</div><div class="ms-l">profit</div></div><div class="ms"><div class="ms-v">77%</div><div class="ms-l">margin</div></div></div>
+          <div class="mci-bar"><div class="mci-bf" style="width:77%;background:#3D7A5A;"></div></div>
+        </div>
+        <div class="mc-item">
+          <div class="mci-top"><div class="mci-name">Pepperoni Calzone</div><span class="mci-pill mr">Raise your price</span></div>
+          <div class="mci-stats"><div class="ms"><div class="ms-v">$6.10</div><div class="ms-l">cost</div></div><div class="ms"><div class="ms-v">$16.00</div><div class="ms-l">price</div></div><div class="ms"><div class="ms-v">$2.10</div><div class="ms-l">profit</div></div><div class="ms"><div class="ms-v">38%</div><div class="ms-l">food cost</div></div></div>
+          <div class="mci-bar"><div class="mci-bf" style="width:38%;background:#C8382A;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALS -->
+<div class="specials-strip">
+  <div class="specials-inner">
+    <div class="special-item">🍕 Pizza shops <span class="special-sep">·</span></div>
+    <div class="special-item">🥖 Bakeries <span class="special-sep">·</span></div>
+    <div class="special-item">🥪 Sandwich shops <span class="special-sep">·</span></div>
+    <div class="special-item">🍱 Caterers <span class="special-sep">·</span></div>
+    <div class="special-item">🍜 Restaurants <span class="special-sep">·</span></div>
+    <div class="special-item">🧁 Pastry shops <span class="special-sep">·</span></div>
+    <div class="special-item">🚚 Food trucks <span class="special-sep">·</span></div>
+    <div class="special-item">☕ Cafés <span class="special-sep">·</span></div>
+    <div class="special-item">🍕 Pizza shops <span class="special-sep">·</span></div>
+    <div class="special-item">🥖 Bakeries <span class="special-sep">·</span></div>
+    <div class="special-item">🥪 Sandwich shops <span class="special-sep">·</span></div>
+    <div class="special-item">🍱 Caterers <span class="special-sep">·</span></div>
+    <div class="special-item">🍜 Restaurants <span class="special-sep">·</span></div>
+    <div class="special-item">🧁 Pastry shops <span class="special-sep">·</span></div>
+    <div class="special-item">🚚 Food trucks <span class="special-sep">·</span></div>
+    <div class="special-item">☕ Cafés <span class="special-sep">·</span></div>
+  </div>
+</div>
+
+<!-- COUNTERS -->
+<div class="counter-strip">
+  <div class="counter-item"><div class="counter-num">28–35%</div><div class="counter-lbl">Target food cost %<br>for a healthy restaurant</div></div>
+  <div class="counter-item"><div class="counter-num">4–10%</div><div class="counter-lbl">Of purchases wasted<br>in a typical food business</div></div>
+  <div class="counter-item"><div class="counter-num">5 min</div><div class="counter-lbl">To see your real costs<br>for the first time</div></div>
+  <div class="counter-item"><div class="counter-num">$0</div><div class="counter-lbl">Cost during<br>early access</div></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="menu-section" id="menu">
+  <div class="menu-inner">
+    <div class="menu-header">
+      <div><div class="sec-tag">Tonight's menu</div><div class="sec-title">Three courses.<br><em>Five minutes.</em><br>Real numbers.</div></div>
+      <div class="sec-desc">No chef training required. No spreadsheets. No accountant on speed dial. Just honest numbers about your food business, served hot.</div>
+    </div>
+    <div class="courses">
+      <div class="course"><div class="course-num">01</div><div><div class="course-label">First course</div><div class="course-title">Add your ingredients</div><div class="course-desc">Enter every ingredient you buy — flour, cheese, sauce, olive oil. Tell us the pack size and what you paid. We calculate cost per gram automatically. You don't do any maths.</div></div></div>
+      <div class="course"><div class="course-num">02</div><div><div class="course-label">Main course</div><div class="course-title">Build your recipes</div><div class="course-desc">Select ingredients and enter how much goes into each dish. Your exact cost per serving appears instantly. Even rough estimates give you numbers that matter.</div></div></div>
+      <div class="course"><div class="course-num">03</div><div><div class="course-label">Dessert</div><div class="course-title">Know what to charge</div><div class="course-desc">Enter your menu price and see your food cost %, net profit per plate, and exactly what to charge to hit your target margin. Green means profit. Red means fix it today.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="ingr-section">
+  <div class="ingr-inner">
+    <div style="margin-bottom:48px;"><div class="sec-tag">What's in the kitchen</div><div class="sec-title">Everything you need.<br><em>Nothing extra.</em></div></div>
+    <div class="ingr-grid">
+      <div class="ingr-card"><div class="ingr-icon">📊</div><div class="ingr-title">Real food cost %</div><div class="ingr-desc">See the exact percentage of your menu price going to ingredients — for every dish. Industry standard is 28–35%. We show you exactly where you stand.</div></div>
+      <div class="ingr-card"><div class="ingr-icon">⚡</div><div class="ingr-title">Cost simulator</div><div class="ingr-desc">Drag a slider to see what happens when cheese goes up 20%. Every recipe recalculates instantly. Know what to charge before the price spike hits your kitchen.</div></div>
+      <div class="ingr-card"><div class="ingr-icon">🗑️</div><div class="ingr-title">Waste tracker</div><div class="ingr-desc">Log spoilage and over-prepping. See in real dollars what's going in the bin. Most owners are shocked by this number the first time they see it.</div></div>
+      <div class="ingr-card ingr-card-wide"><div class="ingr-icon">💡</div><div class="ingr-title">Suggested pricing — and why it matters</div><div class="ingr-desc">The app tells you what to charge for every dish based on your target margin. Forget pricing by gut feel or copying the restaurant down the street. When your mozzarella supplier raises prices, the suggested price updates. When you add a new dish, you'll know what to charge for it before you put it on the board.</div></div>
+      <div class="ingr-card"><div class="ingr-icon">📱</div><div class="ingr-title">Any device. No download.</div><div class="ingr-desc">Open the link on your phone, tablet, or laptop. No app store. No account. Everything saves automatically. Come back a week later and your kitchen is still running.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WASTE -->
+<section class="waste-section">
+  <div class="waste-inner">
+    <div><div class="wsec-tag">The bleed</div><div class="waste-title">Waste is <em>costing</em><br>more than<br>you think.</div><div class="waste-desc">The average independent restaurant wastes 4–10% of its food purchases every month. That's money you already paid for, sitting in the bin. mar.gins puts a real dollar number on it.</div></div>
+    <div class="waste-bill">
+      <div class="wb-lbl">Thrown out this month</div>
+      <div class="wb-val">$184.50</div>
+      <div class="wb-note">↑ $32 more than last month</div>
+      <div class="wb-line"><span>Spoilage</span><span>$98 · 53%</span></div>
+      <div class="wb-track"><div class="wb-fill" style="width:53%;background:#E8614A;"></div></div>
+      <div class="wb-line"><span>Over-prepped</span><span>$54 · 29%</span></div>
+      <div class="wb-track"><div class="wb-fill" style="width:29%;background:#EF9F27;"></div></div>
+      <div class="wb-line"><span>Dropped / Other</span><span>$32 · 18%</span></div>
+      <div class="wb-track"><div class="wb-fill" style="width:18%;background:#8FD5B2;"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section">
+  <div class="reviews-inner">
+    <div class="sec-tag">What guests are saying</div>
+    <div class="sec-title">The reaction we hear<br>most: <em>"I had no idea."</em></div>
+    <div class="reviews-grid">
+      <div class="review"><div class="r-stars">★★★★★</div><div class="r-quote">"I've been running my bakery for 6 years and never calculated what my croissants cost me to make. Turns out I was charging $1 less than I should have been. On 200 croissants a week, that adds up very fast."</div><div class="r-author"><strong>Maria, Bakery owner</strong>Markham, ON</div></div>
+      <div class="review"><div class="r-stars">★★★★★</div><div class="r-quote">"Cheese prices went up in winter and I never updated my pizza prices. mar.gins showed me I was losing $0.80 on every large pizza. I changed the price the next day."</div><div class="r-author"><strong>Tony, Pizza shop owner</strong>Scarborough, ON</div></div>
+      <div class="review"><div class="r-stars">★★★★★</div><div class="r-quote">"The waste tracker changed how I think about ordering. $200 a month in spoilage. Now I order differently and it's down to $60. That's $1,680 a year back in my pocket."</div><div class="r-author"><strong>Priya, Catering business</strong>Mississauga, ON</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="the-bill">
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <div><div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--coral);margin-bottom:14px;display:flex;align-items:center;gap:8px;"><span style="display:block;width:20px;height:2px;background:var(--coral);"></span>Tonight's bill</div><div class="pricing-big">Check<br>please.<br><em>On us.</em></div></div>
+      <div class="pricing-sub">We're in early access — every seat is free. No credit card, no commitment, no catch. Just honest feedback from real food business owners in return.</div>
+    </div>
+    <div class="bill-card">
+      <div class="bill-header"><div class="bill-title">mar.gins — Early access menu</div><div class="bill-badge">All inclusive</div></div>
+      <div class="bill-body">
+        <div><div class="bill-price">$0</div><div class="bill-price-note">Free during early access. No credit card. No strings. Just the numbers your kitchen needs.</div><a href="margins-calculator.html" class="btn-order-now">Place your order →</a><div class="bill-note">Takes under 5 minutes to enter your first recipe.</div></div>
+        <div>
+          <div class="bill-item"><div class="bi-check">✓</div>Unlimited ingredients & recipes</div>
+          <div class="bill-item"><div class="bi-check">✓</div>Menu pricing with real food cost %</div>
+          <div class="bill-item"><div class="bi-check">✓</div>Suggested pricing on every dish</div>
+          <div class="bill-item"><div class="bi-check">✓</div>Cost simulator — what if prices go up?</div>
+          <div class="bill-item"><div class="bi-check">✓</div>Waste tracker with monthly breakdown</div>
+          <div class="bill-item"><div class="bi-check">✓</div>Auto-saves · No account needed</div>
+          <div class="bill-item"><div class="bi-check">✓</div>Works on any phone or laptop</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="questions">
+  <div class="faq-inner">
+    <div style="margin-bottom:48px;"><div class="sec-tag">Questions for the chef</div><div class="sec-title">We've heard<br>these before.</div></div>
+    <div class="faq-list">
+      <div class="faq-item" onclick="tFaq(this)"><div class="faq-q">I cook by feel and everything works out. Why do I need this?<span class="faq-plus">+</span></div><div class="faq-a">Consistent food and a profitable business are two very different things. A perfect dish can still lose you money if ingredient prices went up and your menu price didn't move. Your cooking keeps the food consistent — mar.gins keeps the money healthy underneath it.</div></div>
+      <div class="faq-item" onclick="tFaq(this)"><div class="faq-q">I don't know my exact measurements. Do I need them?<span class="faq-plus">+</span></div><div class="faq-a">No. Enter your best guess. Even rough numbers give you directionally correct costs that are infinitely more useful than nothing. "About a handful of cheese" is a start. You can refine over time.</div></div>
+      <div class="faq-item" onclick="tFaq(this)"><div class="faq-q">What's a good food cost percentage?<span class="faq-plus">+</span></div><div class="faq-a">The industry standard for most food businesses is 28–35%. Below 28% means you might be able to raise prices. Above 38% means that dish is quietly bleeding you — raise the price or reduce the portion.</div></div>
+      <div class="faq-item" onclick="tFaq(this)"><div class="faq-q">Is my data private?<span class="faq-plus">+</span></div><div class="faq-a">Everything you enter stays on your device. There's no account, no server, nothing sent anywhere. We literally cannot see your data.</div></div>
+      <div class="faq-item" onclick="tFaq(this)"><div class="faq-q">Another app I have to use? Really?<span class="faq-plus">+</span></div><div class="faq-a">You set it up once, enter your recipes once, and it tells you right then if you're making money. After that you only open it when costs change or you add something new. It's less of an app and more like a calculator that remembers everything.</div></div>
+      <div class="faq-item" onclick="tFaq(this)"><div class="faq-q">Who's in the kitchen?<span class="faq-plus">+</span></div><div class="faq-a">mar.gins was built by a local entrepreneur from Markham, Ontario — after too many conversations with food business owners who had no idea if they were actually making money. It's early stage, free, and your feedback shapes every new feature.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- LAST CALL -->
+<section class="last-call">
+  <div class="lc-eyebrow">Last call</div>
+  <div class="lc-title">Stop guessing.<br><em>Start knowing.</em></div>
+  <div class="lc-desc">Enter your first recipe. See your real cost. Five minutes. Free. No reservation required.</div>
+  <a href="margins-calculator.html" class="btn-order btn-order-primary" style="font-size:15px;padding:16px 32px;">Open the kitchen →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">mar<span>.</span>gins</div>
+  <div class="footer-links">
+    <a href="#menu" class="footer-link">The menu</a>
+    <a href="#the-bill" class="footer-link">Pricing</a>
+    <a href="#questions" class="footer-link">FAQ</a>
+    <a href="margins-calculator.html" class="footer-link">Try it free</a>
+  </div>
+  <div class="footer-note">Kitchen open in Markham, ON · Free during early access</div>
+</footer>
+
+<script>
+// FAQ
+function tFaq(el){const o=el.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!o)el.classList.add('open');}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
+
+// FEEDBACK PANEL
+function openFeedback(){
+  document.getElementById('fb-panel').classList.add('open');
+  document.getElementById('fb-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeFeedback(){
+  document.getElementById('fb-panel').classList.remove('open');
+  document.getElementById('fb-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFeedback();});
+
+// Stars
+let starVal=0;
+function setStars(n){
+  starVal=n;
+  document.getElementById('fb-rating-val').value=n+' stars';
+  document.querySelectorAll('.fb-star').forEach((s,i)=>{s.classList.toggle('lit',i<n);});
+}
+
+// Submit via Formspree
+async function submitFeedback(e){
+  e.preventDefault();
+  const btn=document.getElementById('fb-submit-btn');
+  btn.disabled=true;btn.textContent='Sending...';
+  const form=document.getElementById('fb-form');
+  const data=new FormData(form);
+  try{
+    const res=await fetch('https://formspree.io/f/xgorjjab',{
+      method:'POST',body:data,headers:{'Accept':'application/json'}
+    });
+    if(res.ok){
+      form.style.display='none';
+      document.getElementById('fb-success').style.display='block';
+    }else{
+      btn.disabled=false;btn.textContent='Send feedback to the kitchen →';
+      alert('Something went wrong. Please try again.');
+    }
+  }catch(err){
+    btn.disabled=false;btn.textContent='Send feedback to the kitchen →';
+    alert('Something went wrong. Please try again.');
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>mar.gins — Know your numbers. Own your kitchen.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#2C2C2A;--offwhite:#FFFDF9;--cream:#F1EFE8;
+  --yellow:#FFEB85;--coral:#3D9E6E;--coral-dark:#3D9E6E;
+  --mint:#9FE1CB;--lavender:#CECBF6;--gray:#888780;
+  --b3:3px solid #2C2C2A;--b2:2px solid #2C2C2A;--r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--black);min-height:100vh;font-size:14px;-webkit-text-size-adjust:100%;}
+
+/* TOPBAR */
+.topbar{background:var(--yellow);border-bottom:var(--b3);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;width:100%;}
+.logo{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--black);letter-spacing:-1px;line-height:1;}
+.logo span{color:var(--coral-dark);}
+.logo-sub{font-size:9px;color:var(--black);opacity:0.5;letter-spacing:0.05em;margin-top:2px;}
+.save-wrap{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--black);opacity:0.65;flex-shrink:0;}
+.save-dot{width:8px;height:8px;border-radius:50%;background:#D3D1C7;border:2px solid var(--black);transition:background 0.3s;}
+.save-dot.saved{background:#5DCAA5;}
+.save-dot.saving{background:#EF9F27;}
+
+/* NAV */
+.nav{display:flex;background:var(--offwhite);border-bottom:var(--b3);overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;}
+.nav::-webkit-scrollbar{display:none;}
+.tab{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;padding:11px 13px;cursor:pointer;background:none;border:none;border-right:2px solid var(--black);color:var(--gray);white-space:nowrap;letter-spacing:0.02em;transition:all 0.15s;flex-shrink:0;}
+.tab:last-child{border-right:none;}
+.tab.active{background:var(--black);color:var(--yellow);}
+.tab:hover:not(.active){background:var(--cream);}
+
+/* PAGE */
+.page{width:100%;max-width:700px;margin:0 auto;padding:20px 16px 100px;}
+.section{display:none;}
+.section.active{display:block;}
+
+/* CARDS */
+.card{background:var(--offwhite);border:var(--b2);border-radius:var(--r);padding:16px;margin-bottom:12px;width:100%;}
+.card-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:12px;}
+.sec-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--black);margin-bottom:4px;}
+.sec-desc{font-size:13px;color:var(--gray);margin-bottom:16px;line-height:1.5;}
+.sec-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+
+/* CALLOUTS */
+.callout{background:var(--yellow);border:var(--b2);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;font-size:13px;line-height:1.6;}
+.callout strong{font-family:'Syne',sans-serif;font-weight:700;}
+.callout-tip{background:var(--lavender);border:var(--b2);border-radius:var(--r);padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--black);line-height:1.5;}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
+@media(min-width:480px){.metrics{grid-template-columns:repeat(4,1fr);}}
+.metric{border-radius:var(--r);border:var(--b2);padding:12px 10px;}
+.metric.yellow{background:var(--yellow);}
+.metric.coral{background:var(--mint);}
+.metric.mint{background:var(--mint);}
+.metric.lavender{background:var(--lavender);}
+.metric-num{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--black);line-height:1;margin-bottom:3px;word-break:break-all;}
+.metric-lbl{font-size:10px;color:var(--black);opacity:0.6;}
+
+/* INPUTS */
+input[type=text],input[type=number],select{font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 10px;border:var(--b2);border-radius:10px;background:var(--offwhite);color:var(--black);width:100%;max-width:100%;transition:background 0.15s;-webkit-appearance:none;appearance:none;}
+select{-webkit-appearance:auto;appearance:auto;}
+input:focus,select:focus{outline:none;background:var(--yellow);}
+input[type=range]{border:none;padding:0;background:none;accent-color:var(--coral-dark);cursor:pointer;width:100%;}
+
+/* BUTTONS */
+.btn{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;padding:9px 14px;border:var(--b2);border-radius:10px;cursor:pointer;background:var(--offwhite);color:var(--black);white-space:nowrap;letter-spacing:0.02em;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;}
+.btn:active{transform:scale(0.97);}
+.btn-primary{background:var(--black);color:var(--yellow);border-color:var(--black);}
+.btn-primary:hover{opacity:0.85;background:var(--black);}
+.btn-danger{color:#A32D2D;border-color:#F09595;}
+.btn-danger:hover{background:#FCEBEB;}
+.btn-sm{padding:6px 9px;font-size:11px;}
+.btn-full{width:100%;justify-content:center;}
+.btn-next{background:var(--black);color:var(--yellow);border-color:var(--black);padding:12px 20px;font-size:13px;margin-top:6px;}
+
+/* PROGRESS */
+.progress-wrap{background:var(--offwhite);border-bottom:var(--b2);padding:10px 16px;}
+.progress-label{font-size:11px;color:var(--gray);margin-bottom:6px;font-weight:500;}
+.progress-steps{display:flex;gap:6px;align-items:center;}
+.ps{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif;color:var(--gray);}
+.ps.done{color:var(--black);}
+.ps.active{color:var(--coral-dark);}
+.ps-dot{width:20px;height:20px;border-radius:50%;border:var(--b2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;background:var(--cream);flex-shrink:0;}
+.ps.done .ps-dot{background:var(--mint);border-color:var(--black);}
+.ps.active .ps-dot{background:var(--yellow);border-color:var(--black);}
+.ps-line{flex:1;height:2px;background:#D3D1C7;border-radius:99px;}
+.ps-line.done{background:var(--black);}
+@media(max-width:380px){.ps span{display:none;}}
+
+/* INGREDIENT ROWS */
+.ingr-table-head{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 36px;gap:6px;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray);margin-bottom:6px;padding:0 2px;}
+.ingr-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 36px;gap:6px;align-items:center;margin-bottom:8px;}
+@media(max-width:440px){.ingr-table-head{display:none;}.ingr-row{grid-template-columns:1fr 36px;grid-template-rows:auto auto;}}
+.ri-head{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 36px;gap:6px;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray);margin-bottom:6px;padding:0 2px;}
+.ri-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 36px;gap:6px;align-items:center;margin-bottom:8px;}
+.frow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
+.frow input[type=text]{flex:2;min-width:140px;}
+.frow input[type=number]{width:90px;flex-shrink:0;}
+
+/* RECIPE CARD */
+.recipe-card{background:var(--offwhite);border:var(--b2);border-radius:var(--r);padding:12px 14px;margin-bottom:10px;}
+.rname{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
+
+/* PILLS */
+.pill{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;border:var(--b2);letter-spacing:0.02em;display:inline-block;}
+.pg{background:var(--mint);color:#085041;}
+.pa{background:#FAC775;color:#633806;}
+.pr{background:#F09595;color:#791F1F;}
+.pn{background:var(--cream);color:var(--gray);}
+
+/* MENU ITEM */
+.menu-item{background:var(--offwhite);border:var(--b2);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;}
+.menu-item.danger{border-color:#E24B4A;}
+.mstats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px;}
+@media(min-width:400px){.mstats{grid-template-columns:repeat(4,1fr);}}
+.stat{text-align:center;background:var(--cream);border-radius:10px;padding:8px 4px;border:1.5px solid var(--black);}
+.sv{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;}
+.sl{font-size:9px;color:var(--gray);margin-top:2px;}
+.bw{height:7px;background:var(--cream);border-radius:99px;margin-top:10px;overflow:hidden;border:1.5px solid var(--black);}
+.bf{height:100%;border-radius:99px;transition:width 0.4s;}
+
+/* SIM */
+.sim-row{display:grid;grid-template-columns:1fr 1fr 50px;gap:8px;align-items:center;margin-bottom:12px;}
+.pup{color:#A32D2D;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;text-align:right;}
+.pdn{color:#3B6D11;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;text-align:right;}
+.pnl{font-family:'Syne',sans-serif;font-weight:700;font-size:12px;text-align:right;}
+.scen-btns{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+
+/* WASTE */
+.big-loss{background:var(--black);border-radius:var(--r);padding:16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.bll{font-size:9px;color:#B4B2A9;margin-bottom:3px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;}
+.blv{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--yellow);line-height:1;}
+.wform{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+@media(min-width:500px){.wform{grid-template-columns:2fr 1fr 1fr auto;align-items:end;}}
+.wfl{font-size:10px;font-weight:700;color:var(--gray);letter-spacing:0.06em;text-transform:uppercase;display:block;margin-bottom:4px;}
+.wh{display:grid;grid-template-columns:65px 1fr 1fr 1fr 36px;gap:6px;font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--gray);padding:0 4px 8px;}
+.wr{display:grid;grid-template-columns:65px 1fr 1fr 1fr 36px;gap:6px;align-items:center;padding:8px 4px;border-bottom:1.5px dashed #D3D1C7;font-size:12px;}
+.wr:last-child{border-bottom:none;}
+@media(max-width:400px){.wh{grid-template-columns:55px 1fr 1fr 36px;}.wh .wh-r{display:none;}.wr{grid-template-columns:55px 1fr 1fr 36px;}.wr .wr-r{display:none;}}
+.rpill{font-size:9px;font-weight:700;padding:2px 6px;border-radius:99px;border:1.5px solid var(--black);font-family:'Syne',sans-serif;}
+.rspo{background:#F09595;color:#791F1F;}
+.rove{background:var(--lavender);color:#3C3489;}
+.rdro{background:var(--mint);color:#085041;}
+.rexp{background:#FAC775;color:#633806;}
+.roth{background:var(--cream);color:var(--gray);}
+.pbtns{display:flex;gap:6px;}
+.pbtn{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;padding:5px 10px;border:var(--b2);border-radius:8px;cursor:pointer;background:var(--offwhite);color:var(--gray);transition:all 0.15s;}
+.pbtn.active{background:var(--black);color:var(--yellow);}
+
+/* SETTINGS */
+.srow{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.srow label{font-size:13px;min-width:180px;}
+.srow input{width:80px;}
+
+/* UTILITY */
+.empty{text-align:center;padding:2rem;color:var(--gray);font-size:13px;}
+.hint{font-size:11px;color:var(--gray);margin-top:6px;font-style:italic;}
+.alert-d{background:#FCEBEB;color:#A32D2D;border:1.5px solid #F09595;border-radius:10px;padding:9px 12px;font-size:12px;margin-top:8px;}
+.sim-impact{border:var(--b2);border-radius:var(--r);padding:12px 14px;margin-bottom:10px;background:var(--offwhite);}
+.sim-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;}
+.sim-col-lbl{font-size:9px;color:var(--gray);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px;}
+.sim-col-val{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
+.empty-cta{text-align:center;padding:2rem 1rem;}
+.empty-cta-icon{font-size:40px;margin-bottom:12px;}
+.empty-cta-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px;}
+.empty-cta-desc{font-size:13px;color:var(--gray);margin-bottom:16px;line-height:1.6;}
+
+/* WELCOME */
+.welcome{position:fixed;inset:0;background:var(--yellow);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;}
+.welcome.hidden{display:none;}
+.w-logo{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:var(--black);letter-spacing:-2px;margin-bottom:6px;}
+.w-logo span{color:var(--coral-dark);}
+.w-tagline{font-size:14px;color:var(--black);opacity:0.6;margin-bottom:40px;}
+.w-steps{display:flex;flex-direction:column;gap:16px;width:100%;max-width:340px;margin-bottom:40px;}
+.w-step{display:flex;align-items:center;gap:14px;background:var(--offwhite);border:var(--b2);border-radius:var(--r);padding:14px 16px;text-align:left;}
+.w-step-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--coral-dark);flex-shrink:0;min-width:32px;}
+.w-step-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--black);margin-bottom:2px;}
+.w-step-desc{font-size:12px;color:var(--gray);}
+.w-btn{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;padding:16px 40px;background:var(--black);color:var(--yellow);border:var(--b3);border-radius:var(--r);cursor:pointer;letter-spacing:0.02em;}
+.w-skip{font-size:12px;color:var(--black);opacity:0.4;margin-top:14px;cursor:pointer;text-decoration:underline;}
+
+/* ═══════════════════════════════
+   FEEDBACK SYSTEM
+═══════════════════════════════ */
+/* Floating button */
+.fb-float{
+  position:fixed;bottom:24px;right:20px;z-index:300;
+  display:flex;align-items:center;gap:8px;
+  background:var(--black);color:var(--yellow);
+  font-family:'Syne',sans-serif;font-size:12px;font-weight:800;
+  padding:11px 18px;border-radius:99px;
+  border:2.5px solid var(--black);
+  cursor:pointer;letter-spacing:0.04em;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2);
+  transition:all 0.2s;
+  user-select:none;
+}
+.fb-float:hover{background:var(--coral-dark);border-color:var(--coral-dark);transform:translateY(-2px);}
+.fb-float-icon{font-size:15px;}
+
+/* Overlay */
+.fb-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:400;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.fb-overlay.open{opacity:1;pointer-events:all;}
+
+/* Panel */
+.fb-panel{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--offwhite);
+  border-top:var(--b3);border-radius:20px 20px 0 0;
+  z-index:500;
+  transform:translateY(100%);
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  max-height:92vh;overflow:hidden;display:flex;flex-direction:column;
+}
+@media(min-width:500px){
+  .fb-panel{
+    bottom:auto;top:50%;left:50%;right:auto;
+    transform:translate(-50%,-40%);
+    width:420px;border-radius:20px;border:var(--b3);
+    max-height:88vh;
+    opacity:0;
+  }
+  .fb-panel.open{transform:translate(-50%,-50%);opacity:1;}
+}
+.fb-panel.open{transform:translateY(0);}
+@media(min-width:500px){.fb-panel.open{transform:translate(-50%,-50%);opacity:1;}}
+
+.fb-drag{width:40px;height:4px;border-radius:99px;background:#D3D1C7;margin:12px auto 0;flex-shrink:0;}
+@media(min-width:500px){.fb-drag{display:none;}}
+
+.fb-header{
+  background:var(--yellow);border-bottom:var(--b2);
+  padding:16px 20px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;
+}
+.fb-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--black);}
+.fb-title span{color:var(--coral-dark);}
+.fb-close{font-size:22px;font-weight:300;color:var(--black);cursor:pointer;line-height:1;background:none;border:none;padding:4px;}
+.fb-close:hover{color:var(--coral-dark);}
+
+.fb-body{padding:18px 20px;overflow-y:auto;flex:1;}
+.fb-intro{font-size:13px;color:var(--gray);line-height:1.65;margin-bottom:18px;}
+.fb-intro strong{color:var(--black);}
+
+.fb-field{margin-bottom:14px;}
+.fb-label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--black);margin-bottom:5px;display:block;}
+.fb-label span{color:var(--coral-dark);}
+.fb-stars{display:flex;gap:8px;margin-bottom:2px;}
+.fb-star{font-size:26px;cursor:pointer;color:#D3D1C7;transition:color 0.1s;line-height:1;-webkit-tap-highlight-color:transparent;}
+.fb-star.lit{color:var(--coral-dark);}
+textarea.fb-inp,input.fb-inp,select.fb-inp{
+  font-family:'DM Sans',sans-serif;font-size:13px;padding:9px 11px;
+  border:var(--b2);border-radius:10px;
+  background:white;color:var(--black);width:100%;resize:none;
+  transition:background 0.15s;
+}
+textarea.fb-inp:focus,input.fb-inp:focus,select.fb-inp:focus{outline:none;background:var(--yellow);}
+textarea.fb-inp{height:80px;}
+.fb-submit{
+  width:100%;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;
+  padding:13px;background:var(--black);color:var(--yellow);
+  border:var(--b2);border-radius:10px;
+  cursor:pointer;letter-spacing:0.03em;transition:all 0.15s;margin-top:6px;
+}
+.fb-submit:hover{background:var(--coral-dark);border-color:var(--coral-dark);}
+.fb-submit:disabled{opacity:0.5;cursor:not-allowed;}
+.fb-success{display:none;text-align:center;padding:28px 16px;}
+.fb-success-icon{font-size:48px;margin-bottom:14px;}
+.fb-success-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--black);margin-bottom:8px;}
+.fb-success-desc{font-size:13px;color:var(--gray);line-height:1.65;}
+
+/* MICRO SURVEY */
+.micro-survey{
+  position:fixed;bottom:80px;right:20px;z-index:299;
+  background:var(--offwhite);border:var(--b2);border-radius:16px;
+  padding:16px 18px;max-width:280px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.15);
+  transform:translateY(20px);opacity:0;
+  transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+  pointer-events:none;
+}
+.micro-survey.show{transform:translateY(0);opacity:1;pointer-events:all;}
+.ms-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--black);margin-bottom:10px;}
+.ms-opts{display:flex;flex-direction:column;gap:6px;}
+.ms-opt{
+  font-size:12px;padding:8px 12px;
+  background:var(--cream);border:1.5px solid var(--black);
+  border-radius:8px;cursor:pointer;text-align:left;
+  font-family:'DM Sans',sans-serif;color:var(--black);
+  transition:all 0.15s;
+}
+.ms-opt:hover{background:var(--yellow);}
+.ms-close{position:absolute;top:10px;right:12px;font-size:16px;cursor:pointer;color:var(--gray);background:none;border:none;line-height:1;}
+</style>
+</head>
+<body>
+
+<!-- WELCOME SCREEN -->
+<div class="welcome" id="welcome">
+  <div class="w-logo">mar<span>.</span>gins</div>
+  <div class="w-tagline">Know your numbers. Own your kitchen.</div>
+  <div class="w-steps">
+    <div class="w-step"><div class="w-step-num">1</div><div><div class="w-step-title">Add your ingredients</div><div class="w-step-desc">Enter what you buy and what you paid. Cost per gram is calculated automatically.</div></div></div>
+    <div class="w-step"><div class="w-step-num">2</div><div><div class="w-step-title">Build your recipes</div><div class="w-step-desc">Combine ingredients into dishes and see your exact cost per serving instantly.</div></div></div>
+    <div class="w-step"><div class="w-step-num">3</div><div><div class="w-step-title">Set your prices</div><div class="w-step-desc">See if your menu is making money and exactly what to charge.</div></div></div>
+  </div>
+  <button class="w-btn" onclick="dismissWelcome()">Let's get started →</button>
+  <div class="w-skip" onclick="dismissWelcome()">Skip intro</div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div><div class="logo">mar<span>.</span>gins</div><div class="logo-sub">know your numbers. own your kitchen.</div></div>
+  <div class="save-wrap"><div class="save-dot" id="sd"></div><span id="sl">Loading...</span></div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap" id="progress-wrap">
+  <div class="progress-label" id="progress-label">Step 1 of 3 — Add your ingredients first</div>
+  <div class="progress-steps">
+    <div class="ps active" id="ps1"><div class="ps-dot">1</div><span>Ingredients</span></div>
+    <div class="ps-line" id="pl1"></div>
+    <div class="ps" id="ps2"><div class="ps-dot">2</div><span>Recipes</span></div>
+    <div class="ps-line" id="pl2"></div>
+    <div class="ps" id="ps3"><div class="ps-dot">3</div><span>Pricing</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="tab active" onclick="go('ingredients')">Ingredients</button>
+  <button class="tab" onclick="go('recipes')">Recipes</button>
+  <button class="tab" onclick="go('menu')">Menu & Pricing</button>
+  <button class="tab" onclick="go('simulator')">Simulator</button>
+  <button class="tab" onclick="go('waste')">Waste</button>
+  <button class="tab" onclick="go('settings')">Settings</button>
+</div>
+
+<div class="page">
+
+  <!-- INGREDIENTS -->
+  <div class="section active" id="tab-ingredients">
+    <div class="sec-header"><div><div class="sec-title">Ingredient library</div><div class="sec-desc">Every item you buy that goes into a dish.</div></div><button class="btn btn-primary" onclick="addI()">+ Add</button></div>
+    <div class="callout"><strong>How this works:</strong> Enter the ingredient name, how big the pack is (e.g. 1000g bag of flour), the unit, and what you paid. The cost per gram/ml is calculated automatically.</div>
+    <div class="card"><div class="ingr-table-head"><span>Ingredient</span><span>Pack size</span><span>Unit</span><span>Cost ($)</span><span></span></div><div id="il"></div></div>
+    <div id="ingr-next-cta"></div>
+    <p class="hint">Changes save automatically.</p>
+  </div>
+
+  <!-- RECIPES -->
+  <div class="section" id="tab-recipes">
+    <div class="sec-title">Recipes</div>
+    <div class="sec-desc">Build dishes from your ingredients.</div>
+    <div class="callout-tip"><strong>Tip:</strong> Enter the amount of each ingredient you use per dish — e.g. 250g of flour, 120g of mozzarella. Cost is calculated instantly.</div>
+    <div class="card">
+      <div class="card-title">Build a new recipe</div>
+      <div class="frow"><input type="text" id="rn" placeholder="Recipe name (e.g. Margherita Pizza)"><input type="number" id="ry" value="1" min="1" style="width:90px;"><button class="btn btn-primary" onclick="saveR()">Save</button></div>
+      <div class="ri-head"><span>Ingredient</span><span>Amount</span><span>Unit</span><span>Cost</span><span></span></div>
+      <div id="ril"></div>
+      <button class="btn" onclick="addRI()" style="margin-top:6px;">+ Add ingredient</button>
+    </div>
+    <div id="sr"></div>
+    <div id="recipe-next-cta"></div>
+  </div>
+
+  <!-- MENU -->
+  <div class="section" id="tab-menu">
+    <div class="sec-title">Menu & pricing</div>
+    <div class="sec-desc">Set your prices. See what you're making per plate.</div>
+    <div class="metrics">
+      <div class="metric yellow"><div class="metric-num" id="mi">0</div><div class="metric-lbl">Items on menu</div></div>
+      <div class="metric coral"><div class="metric-num" id="ma">—</div><div class="metric-lbl">Avg food cost %</div></div>
+      <div class="metric mint"><div class="metric-num" id="mb">—</div><div class="metric-lbl">Best margin</div></div>
+      <div class="metric lavender"><div class="metric-num" id="mw">—</div><div class="metric-lbl">Watch out for</div></div>
+    </div>
+    <div class="callout-tip"><strong>Food cost %</strong> is your ingredient cost as a percentage of your menu price. Aim for 28–35%. Green = great. Amber = ok. Red = losing money.</div>
+    <div id="ml"><div class="empty-cta"><div class="empty-cta-icon">🍕</div><div class="empty-cta-title">No recipes yet</div><div class="empty-cta-desc">Head to Recipes and save at least one dish, then come back here to set prices.</div><button class="btn btn-primary" onclick="go('recipes')">Go to Recipes →</button></div></div>
+  </div>
+
+  <!-- SIMULATOR -->
+  <div class="section" id="tab-simulator">
+    <div class="sec-title">Cost simulator</div>
+    <div class="sec-desc">What happens to your margins if ingredient prices go up?</div>
+    <div class="callout-tip"><strong>How to use:</strong> Drag the global slider or adjust individual ingredients. The impact on every recipe updates instantly.</div>
+    <div class="card">
+      <div class="card-title">Quick scenarios</div>
+      <div class="scen-btns"><button class="btn" onclick="scen(10)">+10%</button><button class="btn" onclick="scen(20)">+20%</button><button class="btn" onclick="scen(30)">+30%</button><button class="btn" onclick="scen(50)">+50%</button><button class="btn" onclick="scen(0)" style="color:#3B6D11;border-color:#5DCAA5;">Reset</button></div>
+      <div style="display:flex;align-items:center;gap:10px;"><label style="font-size:13px;font-weight:500;white-space:nowrap;">All costs</label><input type="range" min="-50" max="100" value="0" step="1" id="gs" oninput="glob(this.value)" style="flex:1;"><span id="gl" class="pnl" style="min-width:44px;">0%</span></div>
+    </div>
+    <div class="card"><div class="card-title">Per-ingredient</div><div id="ss"><div class="empty" style="padding:1rem;">Add ingredients first.</div></div></div>
+    <div class="card"><div class="card-title">Impact on your recipes</div><div id="simr"><div class="empty" style="padding:1rem;">Save some recipes to see impact.</div></div></div>
+  </div>
+
+  <!-- WASTE -->
+  <div class="section" id="tab-waste">
+    <div class="sec-title">Waste tracker</div>
+    <div class="sec-desc">Log anything thrown out. See in dollars what it costs you.</div>
+    <div class="big-loss">
+      <div><div class="bll">Lost this month</div><div class="blv" id="wm">$0.00</div></div>
+      <div style="text-align:right;"><div class="bll">This week</div><div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--coral);margin-bottom:8px;" id="ww">$0.00</div><div class="bll">Biggest offender</div><div style="font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#FAC775;margin-top:2px;" id="wto">—</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Log a waste event</div>
+      <div class="callout-tip" style="margin-bottom:12px;">Select the ingredient, enter how much was wasted, and pick a reason. The cost is calculated automatically.</div>
+      <div class="wform">
+        <div><span class="wfl">Ingredient</span><select id="wi"></select></div>
+        <div><span class="wfl">Amount</span><input type="number" id="wa" placeholder="0" min="0" step="any"></div>
+        <div><span class="wfl">Reason</span><select id="wr2"><option value="spoilage">Spoilage</option><option value="overprep">Over-prepped</option><option value="dropped">Dropped</option><option value="expired">Expired</option><option value="other">Other</option></select></div>
+        <div style="display:flex;align-items:flex-end;"><button class="btn btn-primary btn-full" onclick="logW()">Log it</button></div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;"><div class="card-title" style="margin-bottom:0;">Waste log</div><div class="pbtns"><button class="pbtn active" onclick="setWP('week',this)">Week</button><button class="pbtn" onclick="setWP('month',this)">Month</button><button class="pbtn" onclick="setWP('all',this)">All</button></div></div>
+      <div class="wh"><span>Date</span><span>Ingredient</span><span class="wh-r">Reason</span><span>Cost</span><span></span></div>
+      <div id="wl"></div>
+    </div>
+    <div class="card"><div class="card-title">By reason</div><div id="wbr"></div></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="section" id="tab-settings">
+    <div class="sec-title">Settings</div>
+    <div class="card">
+      <div class="card-title">Business targets</div>
+      <div class="callout-tip" style="margin-bottom:14px;">Food cost % is the most important number. Set it to 30% if you're unsure — that's the industry standard.</div>
+      <div class="srow"><label>Target food cost %</label><input type="number" id="tfc" value="30" min="1" max="99" onchange="savS();rM();rSim();"><span style="font-size:11px;color:var(--gray);font-style:italic;">28–35% is standard</span></div>
+      <div class="srow"><label>Labour % of revenue</label><input type="number" id="tla" value="30" onchange="savS();rM();"></div>
+      <div class="srow"><label>Overhead % of revenue</label><input type="number" id="tov" value="15" onchange="savS();rM();"></div>
+    </div>
+    <div class="card"><div class="card-title">Pricing formula</div><p style="font-size:13px;line-height:1.9;color:var(--gray);">Menu price = Cost per serving ÷ Target food cost %<br><span style="color:var(--black);font-weight:500;">E.g. $2.50 ÷ 0.30 = <strong>$8.33</strong></span></p></div>
+    <div class="card"><div class="card-title">Data</div><p style="font-size:13px;color:var(--gray);margin-bottom:12px;">All data saves automatically to this browser.</p><button class="btn btn-danger" onclick="clearAll()">Clear all data & start fresh</button></div>
+  </div>
+
+</div>
+
+<!-- FEEDBACK FLOAT BUTTON -->
+<div class="fb-float" onclick="openFb()" id="fb-float">
+  <span class="fb-float-icon">💬</span>
+  Give feedback
+</div>
+
+<!-- MICRO SURVEY -->
+<div class="micro-survey" id="micro-survey">
+  <button class="ms-close" onclick="closeMicro()">×</button>
+  <div class="ms-title">What brought you here today?</div>
+  <div class="ms-opts">
+    <button class="ms-opt" onclick="microAnswer('I want to know my food costs')">I want to know my food costs</button>
+    <button class="ms-opt" onclick="microAnswer('I need to fix my pricing')">I need to fix my pricing</button>
+    <button class="ms-opt" onclick="microAnswer('I want to track waste')">I want to track waste</button>
+    <button class="ms-opt" onclick="microAnswer('Just exploring')">Just exploring</button>
+  </div>
+</div>
+
+<!-- FEEDBACK OVERLAY -->
+<div class="fb-overlay" id="fb-overlay" onclick="closeFb()"></div>
+
+<!-- FEEDBACK PANEL -->
+<div class="fb-panel" id="fb-panel">
+  <div class="fb-drag"></div>
+  <div class="fb-header">
+    <div class="fb-title">mar<span>.</span>gins feedback</div>
+    <button class="fb-close" onclick="closeFb()">×</button>
+  </div>
+  <div class="fb-body">
+    <p class="fb-intro"><strong>Your opinion shapes this app.</strong> mar.gins is in early access. Tell us what's working, what's missing, and what would make you actually use this every day.</p>
+    <form id="fb-form" onsubmit="submitFb(event)">
+      <input type="hidden" name="_subject" value="mar.gins App Feedback">
+      <input type="hidden" name="_replyto" id="fb-rt">
+      <div class="fb-field">
+        <label class="fb-label">How useful is this for your business? <span>*</span></label>
+        <div class="fb-stars" id="fb-stars">
+          <span class="fb-star" onclick="setStar(1)">★</span>
+          <span class="fb-star" onclick="setStar(2)">★</span>
+          <span class="fb-star" onclick="setStar(3)">★</span>
+          <span class="fb-star" onclick="setStar(4)">★</span>
+          <span class="fb-star" onclick="setStar(5)">★</span>
+        </div>
+        <input type="hidden" name="rating" id="fb-rv">
+      </div>
+      <div class="fb-field">
+        <label class="fb-label">Type of food business</label>
+        <select class="fb-inp" name="business_type">
+          <option value="">Select one...</option>
+          <option>Pizza shop</option><option>Bakery</option><option>Sandwich / deli</option>
+          <option>Restaurant</option><option>Catering</option><option>Food truck</option>
+          <option>Café / coffee shop</option><option>Pastry / dessert shop</option>
+          <option>Other food business</option><option>I don't run a food business</option>
+        </select>
+      </div>
+      <div class="fb-field">
+        <label class="fb-label">What's the one thing you'd add or fix? <span>*</span></label>
+        <textarea class="fb-inp" name="improvement" placeholder="e.g. I wish it could track daily sales..." required></textarea>
+      </div>
+      <div class="fb-field">
+        <label class="fb-label">What do you like most?</label>
+        <textarea class="fb-inp" name="liked" placeholder="What's working well?"></textarea>
+      </div>
+      <div class="fb-field">
+        <label class="fb-label">Would you pay for this?</label>
+        <select class="fb-inp" name="would_pay">
+          <option value="">Select one...</option>
+          <option>Yes — $10/month or less</option>
+          <option>Yes — $15–20/month</option>
+          <option>Yes — $25–40/month</option>
+          <option>Only if it had more features</option>
+          <option>No — only if free</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+      <div class="fb-field">
+        <label class="fb-label">Your email (optional)</label>
+        <input type="email" class="fb-inp" name="email" placeholder="you@example.com" oninput="document.getElementById('fb-rt').value=this.value">
+      </div>
+      <div class="fb-field">
+        <label class="fb-label">Anything else on your mind?</label>
+        <textarea class="fb-inp" name="open_comment" placeholder="Say whatever you'd like — complaints, ideas, questions, stories from your kitchen. Anything at all. We read every single one." style="height:110px;"></textarea>
+      </div>
+      <button type="submit" class="fb-submit" id="fb-btn">Send feedback →</button>
+    </form>
+    <div class="fb-success" id="fb-success">
+      <div class="fb-success-icon">🍕</div>
+      <div class="fb-success-title">Got it — thank you!</div>
+      <div class="fb-success-desc">This goes directly to the person who built mar.gins. Every response shapes what gets built next.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SK='mg-v6';
+let ingredients=[],recipes=[],wasteLog=[],rIngrs=[],sMults={};
+let iC=1,rC=1,wC=1,wP='week',sT=null;
+
+const DI=[{id:1,name:'Bread flour',packSize:1000,unit:'g',packCost:2.50},{id:2,name:'Mozzarella',packSize:500,unit:'g',packCost:6.00},{id:3,name:'Tomato sauce',packSize:400,unit:'ml',packCost:1.80},{id:4,name:'Olive oil',packSize:1000,unit:'ml',packCost:8.00},{id:5,name:'Yeast',packSize:100,unit:'g',packCost:1.20}];
+const DR=[{id:1,name:'Margherita Pizza',yield:1,ingrs:[{ingrId:1,amount:250},{ingrId:2,amount:120},{ingrId:3,amount:80},{ingrId:4,amount:15},{ingrId:5,amount:5}],menuPrice:14.00}];
+
+// Welcome
+function dismissWelcome(){document.getElementById('welcome').classList.add('hidden');localStorage.setItem('mg-welcomed','1');startMicroTimer();}
+if(localStorage.getItem('mg-welcomed')==='1')document.getElementById('welcome').classList.add('hidden');
+
+// Micro survey - shows after 60s if not already answered
+let microTimer=null;
+function startMicroTimer(){
+  if(localStorage.getItem('mg-micro-done'))return;
+  microTimer=setTimeout(()=>{document.getElementById('micro-survey').classList.add('show');},60000);
+}
+function closeMicro(){document.getElementById('micro-survey').classList.remove('show');localStorage.setItem('mg-micro-done','1');if(microTimer)clearTimeout(microTimer);}
+async function microAnswer(answer){
+  closeMicro();
+  try{
+    await fetch('https://formspree.io/f/xgorjjab',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({_subject:'mar.gins Micro Survey',answer,source:'app micro-survey'})
+    });
+  }catch(e){}
+}
+if(localStorage.getItem('mg-welcomed')==='1')startMicroTimer();
+
+// Save
+function ss2(s){const d=document.getElementById('sd'),l=document.getElementById('sl');if(s==='saved'){d.className='save-dot saved';l.textContent='Saved';}else if(s==='saving'){d.className='save-dot saving';l.textContent='Saving...';}else{d.className='save-dot';l.textContent='Not saved';}}
+function sched(){if(sT)clearTimeout(sT);sT=setTimeout(doSave,800);}
+function doSave(){ss2('saving');try{localStorage.setItem(SK,JSON.stringify({ingredients,recipes,wasteLog,iC,rC,wC,s:{fc:document.getElementById('tfc')?.value||'30',la:document.getElementById('tla')?.value||'30',ov:document.getElementById('tov')?.value||'15'}}));ss2('saved');}catch(e){ss2('error');}}
+function savS(){sched();}
+
+function load(){
+  try{const raw=localStorage.getItem(SK);if(raw){const d=JSON.parse(raw);ingredients=d.ingredients||JSON.parse(JSON.stringify(DI));recipes=d.recipes||JSON.parse(JSON.stringify(DR));wasteLog=d.wasteLog||[];iC=d.iC||ingredients.length+1;rC=d.rC||recipes.length+1;wC=d.wC||wasteLog.length+1;if(d.s){document.getElementById('tfc').value=d.s.fc||'30';document.getElementById('tla').value=d.s.la||'30';document.getElementById('tov').value=d.s.ov||'15';}}else{ingredients=JSON.parse(JSON.stringify(DI));recipes=JSON.parse(JSON.stringify(DR));wasteLog=[];iC=6;rC=2;wC=1;doSave();}}catch(e){ingredients=JSON.parse(JSON.stringify(DI));recipes=JSON.parse(JSON.stringify(DR));wasteLog=[];iC=6;rC=2;wC=1;}
+  ss2('saved');rI();rSR();rM();rWS();rWL();rWM();
+}
+function clearAll(){if(!confirm('Delete all data?'))return;ingredients=[];recipes=[];wasteLog=[];rIngrs=[];iC=rC=wC=1;rI();rSR();rM();rSS();rWS();rWL();rWM();updateProgress();doSave();}
+
+function gi(id){return ingredients.find(i=>i.id===id);}
+function cpu(i){return i.packCost/i.packSize;}
+function brc(r){return r.ingrs.reduce((s,ri)=>{const i=gi(ri.ingrId);return i?s+cpu(i)*ri.amount:s;},0);}
+function rcw(r){return r.ingrs.reduce((s,ri)=>{const i=gi(ri.ingrId);if(!i)return s;return s+(i.packCost*(sMults[i.id]||1)/i.packSize)*ri.amount;},0);}
+function tFC(){return +document.getElementById('tfc').value/100||0.30;}
+function tLA(){return +document.getElementById('tla').value/100||0.30;}
+function tOV(){return +document.getElementById('tov').value/100||0.15;}
+
+function updateProgress(){
+  const hI=ingredients.length>0,hR=recipes.length>0,hP=recipes.some(r=>r.menuPrice>0);
+  const step=hP?3:hR?2:hI?2:1;
+  ['ps1','ps2','ps3'].forEach((id,i)=>{const el=document.getElementById(id);el.className='ps'+(i+1<step?' done':i+1===step?' active':'');el.querySelector('.ps-dot').textContent=i+1<step?'✓':i+1;});
+  document.getElementById('pl1').className='ps-line'+(hI?' done':'');
+  document.getElementById('pl2').className='ps-line'+(hR?' done':'');
+  const labels=['Add your ingredients first','Now build your recipes','Set prices on the Menu tab'];
+  document.getElementById('progress-label').textContent='Step '+Math.min(step,3)+' of 3 — '+labels[Math.min(step,3)-1];
+  const ic=document.getElementById('ingr-next-cta');if(ic)ic.innerHTML=hI&&!hR?'<button class="btn btn-next btn-full" onclick="go(\'recipes\')">Next: Build your recipes →</button>':'';
+  const rc=document.getElementById('recipe-next-cta');if(rc)rc.innerHTML=hR&&!hP?'<button class="btn btn-next btn-full" onclick="go(\'menu\')">Next: Set your prices →</button>':'';
+}
+
+function rI(){document.getElementById('il').innerHTML=ingredients.length?ingredients.map(i=>`<div class="ingr-row"><input value="${i.name}" placeholder="e.g. Mozzarella" onchange="uI(${i.id},'name',this.value)"><input type="number" value="${i.packSize}" min="0.01" step="any" onchange="uI(${i.id},'packSize',+this.value)"><select onchange="uI(${i.id},'unit',this.value)">${['g','kg','ml','l','unit','oz','lb'].map(u=>`<option ${i.unit===u?'selected':''}>${u}</option>`).join('')}</select><input type="number" value="${i.packCost.toFixed(2)}" min="0" step="0.01" onchange="uI(${i.id},'packCost',+this.value)"><button class="btn btn-danger btn-sm" onclick="dI(${i.id})">×</button></div>`).join(''):'<div class="empty" style="padding:1rem;">No ingredients yet.</div>';updateProgress();}
+function uI(id,f,v){const i=ingredients.find(i=>i.id===id);if(i){i[f]=v;rSR();rM();rSS();rWS();sched();}}
+function dI(id){if(!confirm('Remove this ingredient?'))return;ingredients=ingredients.filter(i=>i.id!==id);rI();rM();rSS();rWS();sched();}
+function addI(){ingredients.push({id:iC++,name:'',packSize:1000,unit:'g',packCost:0});rI();rWS();sched();setTimeout(()=>{const inputs=document.querySelectorAll('#il .ingr-row input');if(inputs.length)inputs[inputs.length-4].focus();},50);}
+
+function rRIL(){document.getElementById('ril').innerHTML=rIngrs.length?rIngrs.map((ri,x)=>{const ingr=gi(ri.ingrId),cost=ingr&&ri.amount?cpu(ingr)*ri.amount:0;return`<div class="ri-row"><select onchange="uRI(${x},'ingrId',+this.value)"><option value="">— pick ingredient —</option>${ingredients.map(i=>`<option value="${i.id}" ${ri.ingrId===i.id?'selected':''}>${i.name||'(unnamed)'}</option>`).join('')}</select><input type="number" value="${ri.amount||''}" min="0" step="any" placeholder="Amount" onchange="uRI(${x},'amount',+this.value)"><span style="font-size:11px;color:var(--gray);padding-left:4px;">${ingr?ingr.unit:''}</span><span style="font-size:11px;color:var(--gray);text-align:right;font-weight:500;">${ingr&&ri.amount?'$'+cost.toFixed(2):'—'}</span><button class="btn btn-danger btn-sm" onclick="dRI(${x})">×</button></div>`;}).join(''):'<div style="font-size:12px;color:var(--gray);padding:6px 2px;">Tap "+ Add ingredient" to start.</div>';}
+function uRI(x,f,v){rIngrs[x][f]=v;rRIL();}
+function dRI(x){rIngrs.splice(x,1);rRIL();}
+function addRI(){if(!ingredients.length){alert('Add ingredients first.');return;}rIngrs.push({ingrId:ingredients[0]?.id||null,amount:''});rRIL();}
+function saveR(){const name=document.getElementById('rn').value.trim(),yld=+document.getElementById('ry').value||1;if(!name){alert('Enter a recipe name.');return;}if(!rIngrs.length){alert('Add at least one ingredient.');return;}if(rIngrs.some(ri=>!ri.ingrId||!ri.amount)){alert('Make sure every row has an ingredient and an amount.');return;}recipes.push({id:rC++,name,yield:yld,ingrs:JSON.parse(JSON.stringify(rIngrs)),menuPrice:0});rIngrs=[];document.getElementById('rn').value='';document.getElementById('ry').value='1';rRIL();rSR();rM();rSS();updateProgress();sched();}
+function rSR(){const el=document.getElementById('sr');if(!recipes.length){el.innerHTML='';updateProgress();return;}el.innerHTML='<div class="card-title" style="margin-top:6px;margin-bottom:10px;">Saved recipes</div>'+recipes.map(r=>{const cost=brc(r)/r.yield,sug=cost/tFC();return`<div class="recipe-card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;"><span class="rname">${r.name}</span><button class="btn btn-danger btn-sm" onclick="dR(${r.id})">Delete</button></div><div style="display:flex;gap:16px;font-size:12px;color:var(--gray);flex-wrap:wrap;"><span>Cost/serving: <strong style="color:var(--black);">$${cost.toFixed(2)}</strong></span><span>Suggested: <strong style="color:var(--black);">$${sug.toFixed(2)}</strong></span><span>Yield: ${r.yield}</span></div></div>`;}).join('');updateProgress();}
+function dR(id){if(!confirm('Delete this recipe?'))return;recipes=recipes.filter(r=>r.id!==id);rSR();rM();rSim();updateProgress();sched();}
+
+function rM(){const list=document.getElementById('ml');if(!recipes.length){list.innerHTML='<div class="empty-cta"><div class="empty-cta-icon">🍕</div><div class="empty-cta-title">No recipes yet</div><div class="empty-cta-desc">Save at least one recipe, then come back to set prices.</div><button class="btn btn-primary" onclick="go(\'recipes\')">Go to Recipes →</button></div>';uMet([]);return;}const items=recipes.map(r=>{const cost=brc(r)/r.yield,price=r.menuPrice||0,fc=price>0?(cost/price)*100:null,profit=price>0?price-cost-price*tLA()-price*tOV():null,sug=cost/tFC();return{r,cost,price,fc,profit,sug};});list.innerHTML=items.map(({r,cost,price,fc,profit,sug})=>{const pc=fc===null?'pn':fc<=30?'pg':fc<=38?'pa':'pr',pl=fc===null?'Set a price below':fc<=30?'Great margin ✓':fc<=38?'OK margin':'Low margin — raise price',pC=profit===null?'inherit':profit>0?'#3B6D11':'#A32D2D',mP=fc!==null?Math.max(0,Math.min(100,100-fc)):0,bC=fc===null?'#D3D1C7':fc<=30?'#5DCAA5':fc<=38?'#EF9F27':'#E24B4A',isDanger=fc!==null&&fc>38;return`<div class="menu-item${isDanger?' danger':''}"><div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:10px;"><div><div class="rname" style="font-size:15px;margin-bottom:6px;">${r.name}</div><div style="display:flex;gap:5px;flex-wrap:wrap;"><span class="pill ${pc}">${pl}</span>${fc!==null?`<span class="pill pn">FC: ${fc.toFixed(1)}%</span>`:''}</div></div><div><div style="font-size:10px;color:var(--gray);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">Your price ($)</div><input type="number" value="${r.menuPrice||''}" placeholder="${sug.toFixed(2)}" min="0" step="0.01" style="width:90px;" onchange="sMP(${r.id},+this.value)"><div style="font-size:11px;color:var(--gray);margin-top:4px;">Suggested: <strong style="color:var(--black);">$${sug.toFixed(2)}</strong></div></div></div>${isDanger?`<div class="alert-d" style="margin-bottom:10px;">Margin danger zone — raise to at least $${sug.toFixed(2)}</div>`:''}<div class="mstats"><div class="stat"><div class="sv">$${cost.toFixed(2)}</div><div class="sl">Ingredient cost</div></div><div class="stat"><div class="sv">${price>0?'$'+price.toFixed(2):'—'}</div><div class="sl">Menu price</div></div><div class="stat"><div class="sv" style="color:${pC}">${profit!==null?'$'+profit.toFixed(2):'—'}</div><div class="sl">Net profit</div></div><div class="stat"><div class="sv">${fc!==null?(100-fc).toFixed(1)+'%':'—'}</div><div class="sl">Margin</div></div></div><div class="bw"><div class="bf" style="width:${mP}%;background:${bC};"></div></div></div>`;}).join('');uMet(items);}
+function sMP(id,p){const r=recipes.find(r=>r.id===id);if(r){r.menuPrice=p;rM();rSR();updateProgress();sched();}}
+function uMet(items){const pr=items.filter(i=>i.fc!==null);document.getElementById('mi').textContent=recipes.length;document.getElementById('ma').textContent=pr.length?(pr.reduce((s,i)=>s+i.fc,0)/pr.length).toFixed(1)+'%':'—';if(pr.length){document.getElementById('mb').textContent=pr.reduce((a,b)=>a.fc<b.fc?a:b).r.name.split(' ')[0];document.getElementById('mw').textContent=pr.reduce((a,b)=>a.fc>b.fc?a:b).r.name.split(' ')[0];}else{document.getElementById('mb').textContent='—';document.getElementById('mw').textContent='—';}}
+
+function rSS(){const el=document.getElementById('ss');if(!ingredients.length){el.innerHTML='<div class="empty" style="padding:1rem;">Add ingredients first.</div>';return;}el.innerHTML=ingredients.map(i=>{const pct=Math.round(((sMults[i.id]||1)-1)*100);return`<div class="sim-row"><label style="font-size:12px;font-weight:500;">${i.name||'(unnamed)'}</label><input type="range" min="-50" max="100" value="${pct}" step="1" oninput="setSM(${i.id},this.value)"><span class="${pct>0?'pup':pct<0?'pdn':'pnl'}" id="sp${i.id}">${pct>0?'+':''}${pct}%</span></div>`;}).join('');rSim();}
+function setSM(id,v){sMults[id]=1+(+v/100);const pct=+v,l=document.getElementById('sp'+id);if(l){l.textContent=(pct>0?'+':'')+pct+'%';l.className=pct>0?'pup':pct<0?'pdn':'pnl';}rSim();}
+function scen(pct){ingredients.forEach(i=>{sMults[i.id]=1+(pct/100);});document.getElementById('gs').value=pct;const l=document.getElementById('gl');l.textContent=(pct>0?'+':'')+pct+'%';l.className=pct>0?'pup':pct<0?'pdn':'pnl';rSS();}
+function glob(v){const pct=+v;ingredients.forEach(i=>{sMults[i.id]=1+(pct/100);});const l=document.getElementById('gl');l.textContent=(pct>0?'+':'')+pct+'%';l.className=pct>0?'pup':pct<0?'pdn':'pnl';rSS();}
+function rSim(){const el=document.getElementById('simr');if(!recipes.length){el.innerHTML='<div class="empty" style="padding:1rem;">Save some recipes to see impact.</div>';return;}el.innerHTML=recipes.map(r=>{const bC=brc(r)/r.yield,sC=rcw(r)/r.yield,diff=sC-bC,diffP=bC>0?(diff/bC)*100:0,price=r.menuPrice||0,bFC=price>0?(bC/price)*100:null,sFC=price>0?(sC/price)*100:null,ns=sC/tFC(),bad=sFC!==null&&sFC>38;return`<div class="sim-impact"><div class="rname" style="font-size:13px;margin-bottom:10px;">${r.name}</div><div class="sim-cols"><div><div class="sim-col-lbl">Current cost</div><div class="sim-col-val">$${bC.toFixed(2)}</div></div><div><div class="sim-col-lbl">Simulated</div><div class="sim-col-val" style="color:${diff>0?'#A32D2D':diff<0?'#3B6D11':'inherit'};">$${sC.toFixed(2)} <span style="font-size:10px;">(${diff>0?'+':''}${diffP.toFixed(1)}%)</span></div></div><div><div class="sim-col-lbl">New suggest</div><div class="sim-col-val" style="color:${ns>(price||0)?'#A32D2D':'#3B6D11'};">$${ns.toFixed(2)}</div></div></div>${bFC!==null?`<div style="font-size:11px;color:var(--gray);margin-top:6px;">Food cost: <strong>${bFC.toFixed(1)}%</strong> → <strong style="color:${bad?'#A32D2D':'#3B6D11'}">${sFC.toFixed(1)}%</strong></div>`:''}${bad?`<div class="alert-d">Danger zone — raise price to $${ns.toFixed(2)}</div>`:''}</div>`;}).join('');}
+
+function rWS(){const s=document.getElementById('wi');if(!s)return;s.innerHTML=ingredients.length?ingredients.map(i=>`<option value="${i.id}">${i.name||'(unnamed)'}</option>`).join(''):'<option>Add ingredients first</option>';}
+function logW(){const ingrId=+document.getElementById('wi').value,amount=+document.getElementById('wa').value,reason=document.getElementById('wr2').value;if(!ingrId||!amount||amount<=0){alert('Select an ingredient and enter an amount.');return;}const ingr=gi(ingrId);if(!ingr)return;wasteLog.unshift({id:wC++,ingrId,ingrName:ingr.name,amount,unit:ingr.unit,reason,costLost:cpu(ingr)*amount,date:new Date().toISOString()});document.getElementById('wa').value='';rWL();rWM();sched();}
+function setWP(p,btn){wP=p;document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');rWL();}
+function fW(){const now=new Date();return wasteLog.filter(w=>{const d=new Date(w.date);if(wP==='week'){const wa=new Date(now);wa.setDate(wa.getDate()-7);return d>=wa;}if(wP==='month'){const ma=new Date(now);ma.setDate(ma.getDate()-30);return d>=ma;}return true;});}
+function rWL(){const el=document.getElementById('wl'),fw=fW();if(!fw.length){el.innerHTML='<div class="empty" style="padding:1rem;">Nothing logged yet.</div>';return;}const rl={spoilage:'Spoilage',overprep:'Over-prepped',dropped:'Dropped',expired:'Expired',other:'Other'};const rc={spoilage:'rspo',overprep:'rove',dropped:'rdro',expired:'rexp',other:'roth'};el.innerHTML=fw.map(w=>{const d=new Date(w.date);return`<div class="wr"><span style="color:var(--gray);font-size:11px;">${d.toLocaleDateString('en-CA',{month:'short',day:'numeric'})}</span><span style="font-weight:500;font-size:12px;">${w.ingrName}<br><span style="font-weight:400;color:var(--gray);">${w.amount}${w.unit}</span></span><span class="wr-r"><span class="rpill ${rc[w.reason]||'roth'}">${rl[w.reason]||w.reason}</span></span><span style="color:#A32D2D;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;">−$${w.costLost.toFixed(2)}</span><button class="btn btn-danger btn-sm" onclick="dW(${w.id})">×</button></div>`;}).join('');}
+function dW(id){wasteLog=wasteLog.filter(w=>w.id!==id);rWL();rWM();sched();}
+function rWM(){const now=new Date(),wa=new Date(now),ma=new Date(now);wa.setDate(wa.getDate()-7);ma.setDate(ma.getDate()-30);const wt=wasteLog.filter(w=>new Date(w.date)>=wa).reduce((s,w)=>s+w.costLost,0),mt=wasteLog.filter(w=>new Date(w.date)>=ma).reduce((s,w)=>s+w.costLost,0);document.getElementById('wm').textContent='$'+mt.toFixed(2);document.getElementById('ww').textContent='$'+wt.toFixed(2);const byI={};wasteLog.forEach(w=>{byI[w.ingrName]=(byI[w.ingrName]||0)+w.costLost;});const top=Object.entries(byI).sort((a,b)=>b[1]-a[1])[0];document.getElementById('wto').textContent=top?`${top[0]} ($${top[1].toFixed(2)})`:'—';const byR={spoilage:0,overprep:0,dropped:0,expired:0,other:0};wasteLog.forEach(w=>{byR[w.reason]=(byR[w.reason]||0)+w.costLost;});const tot=Object.values(byR).reduce((a,b)=>a+b,0);const labels={spoilage:'Spoilage',overprep:'Over-prepped',dropped:'Dropped/accident',expired:'Expired',other:'Other'};const colors={spoilage:'#E24B4A',overprep:'#BA7517',dropped:'#639922',expired:'#185FA5',other:'#888780'};const el=document.getElementById('wbr');if(!tot){el.innerHTML='<div class="empty" style="padding:0.5rem;">Log some waste to see breakdown.</div>';return;}el.innerHTML=Object.entries(byR).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{const pct=tot>0?(v/tot)*100:0;return`<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span style="font-weight:500;">${labels[k]}</span><span style="color:var(--gray);">$${v.toFixed(2)} · ${pct.toFixed(0)}%</span></div><div class="bw"><div class="bf" style="width:${pct}%;background:${colors[k]};"></div></div></div>`;}).join('');}
+
+function go(name){const names=['ingredients','recipes','menu','simulator','waste','settings'];document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===name));document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');if(name==='menu')rM();if(name==='recipes'){rSR();rRIL();}if(name==='simulator')rSS();if(name==='waste'){rWS();rWL();rWM();}window.scrollTo(0,0);}
+
+// FEEDBACK
+function openFb(){document.getElementById('fb-panel').classList.add('open');document.getElementById('fb-overlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeFb(){document.getElementById('fb-panel').classList.remove('open');document.getElementById('fb-overlay').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeFb();closeMicro();}});
+
+let starVal=0;
+function setStar(n){starVal=n;document.getElementById('fb-rv').value=n+' stars';document.querySelectorAll('.fb-star').forEach((s,i)=>s.classList.toggle('lit',i<n));}
+
+async function submitFb(e){
+  e.preventDefault();
+  const btn=document.getElementById('fb-btn');
+  btn.disabled=true;btn.textContent='Sending...';
+  const data=new FormData(document.getElementById('fb-form'));
+  try{
+    const res=await fetch('https://formspree.io/f/xgorjjab',{method:'POST',body:data,headers:{'Accept':'application/json'}});
+    if(res.ok){document.getElementById('fb-form').style.display='none';document.getElementById('fb-success').style.display='block';}
+    else{btn.disabled=false;btn.textContent='Send feedback →';alert('Something went wrong. Please try again.');}
+  }catch(err){btn.disabled=false;btn.textContent='Send feedback →';alert('Something went wrong. Please try again.');}
+}
+
+load();
+</script>
+</body>
+</html>
