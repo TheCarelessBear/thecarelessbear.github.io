@@ -539,7 +539,13 @@ const DI=[{id:1,name:'Bread flour',packSize:1000,unit:'g',packCost:2.50},{id:2,n
 const DR=[{id:1,name:'Margherita Pizza',yield:1,ingrs:[{ingrId:1,amount:250},{ingrId:2,amount:120},{ingrId:3,amount:80},{ingrId:4,amount:15},{ingrId:5,amount:5}],menuPrice:14.00}];
 
 // Welcome
-function dismissWelcome(){document.getElementById('welcome').classList.add('hidden');localStorage.setItem('mg-welcomed','1');startMicroTimer();}
+function dismissWelcome(){
+  document.getElementById('welcome').classList.add('hidden');
+  localStorage.setItem('mg-welcomed','1');
+  document.getElementById('main-ui').style.display='block';
+  renderIngredients();rSR();rM();rWS();rWL();rWM();updateProgress();
+  startMicroTimer();
+}
 if(localStorage.getItem('mg-welcomed')==='1')document.getElementById('welcome').classList.add('hidden');
 
 // Micro survey - shows after 60s if not already answered
@@ -646,7 +652,11 @@ async function submitFb(e){
   }catch(err){btn.disabled=false;btn.textContent='Send feedback →';alert('Something went wrong. Please try again.');}
 }
 
-load();
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', load);
+} else {
+  load();
+}
 </script>
 </body>
 </html>
