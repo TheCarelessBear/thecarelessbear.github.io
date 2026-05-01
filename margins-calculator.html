@@ -274,28 +274,6 @@ textarea.fb-inp{height:80px;}
 .fb-success-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--black);margin-bottom:8px;}
 .fb-success-desc{font-size:13px;color:var(--gray);line-height:1.65;}
 
-/* MICRO SURVEY */
-.micro-survey{
-  position:fixed;bottom:80px;right:20px;z-index:299;
-  background:var(--offwhite);border:var(--b2);border-radius:16px;
-  padding:16px 18px;max-width:280px;
-  box-shadow:0 8px 24px rgba(0,0,0,0.15);
-  transform:translateY(20px);opacity:0;
-  transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
-  pointer-events:none;
-}
-.micro-survey.show{transform:translateY(0);opacity:1;pointer-events:all;}
-.ms-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--black);margin-bottom:10px;}
-.ms-opts{display:flex;flex-direction:column;gap:6px;}
-.ms-opt{
-  font-size:12px;padding:8px 12px;
-  background:var(--cream);border:1.5px solid var(--black);
-  border-radius:8px;cursor:pointer;text-align:left;
-  font-family:'DM Sans',sans-serif;color:var(--black);
-  transition:all 0.15s;
-}
-.ms-opt:hover{background:var(--yellow);}
-.ms-close{position:absolute;top:10px;right:12px;font-size:16px;cursor:pointer;color:var(--gray);background:none;border:none;line-height:1;}
 </style>
 </head>
 <body>
@@ -444,18 +422,6 @@ textarea.fb-inp{height:80px;}
   Give feedback
 </div>
 
-<!-- MICRO SURVEY -->
-<div class="micro-survey" id="micro-survey">
-  <button class="ms-close" onclick="closeMicro()">×</button>
-  <div class="ms-title">What brought you here today?</div>
-  <div class="ms-opts">
-    <button class="ms-opt" onclick="microAnswer('I want to know my food costs')">I want to know my food costs</button>
-    <button class="ms-opt" onclick="microAnswer('I need to fix my pricing')">I need to fix my pricing</button>
-    <button class="ms-opt" onclick="microAnswer('I want to track waste')">I want to track waste</button>
-    <button class="ms-opt" onclick="microAnswer('Just exploring')">Just exploring</button>
-  </div>
-</div>
-
 <!-- FEEDBACK OVERLAY -->
 <div class="fb-overlay" id="fb-overlay" onclick="closeFb()"></div>
 
@@ -544,28 +510,8 @@ function dismissWelcome(){
   localStorage.setItem('mg-welcomed','1');
   document.getElementById('main-ui').style.display='block';
   renderIngredients();rSR();rM();rWS();rWL();rWM();updateProgress();
-  startMicroTimer();
 }
 if(localStorage.getItem('mg-welcomed')==='1')document.getElementById('welcome').classList.add('hidden');
-
-// Micro survey - shows after 60s if not already answered
-let microTimer=null;
-function startMicroTimer(){
-  if(localStorage.getItem('mg-micro-done'))return;
-  microTimer=setTimeout(()=>{document.getElementById('micro-survey').classList.add('show');},60000);
-}
-function closeMicro(){document.getElementById('micro-survey').classList.remove('show');localStorage.setItem('mg-micro-done','1');if(microTimer)clearTimeout(microTimer);}
-async function microAnswer(answer){
-  closeMicro();
-  try{
-    await fetch('https://formspree.io/f/meevyadp',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify({_subject:'mar.gins Micro Survey',answer,source:'app micro-survey'})
-    });
-  }catch(e){}
-}
-if(localStorage.getItem('mg-welcomed')==='1')startMicroTimer();
 
 // Save
 function ss2(s){const d=document.getElementById('sd'),l=document.getElementById('sl');if(s==='saved'){d.className='save-dot saved';l.textContent='Saved';}else if(s==='saving'){d.className='save-dot saving';l.textContent='Saving...';}else{d.className='save-dot';l.textContent='Not saved';}}
